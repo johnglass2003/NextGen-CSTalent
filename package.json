@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "@supabase/auth-helpers-nextjs": "^0.15.0",
-    "@supabase/supabase-js": "^2.89.0",
-    "lucide-react": "^0.562.0",
-    "react-hook-form": "^7.69.0"
-  }
-}
