@@ -6,6 +6,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import type { StudentRegistration } from '@/types/student';
+import { supabase } from '@/lib/supabase/client';
 
 export async function POST(request: NextRequest) {
   try {
@@ -49,16 +50,39 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // TODO: Save to database (Supabase integration)
-    // For now, just log the registration
-    console.log('New student registration:', {
-      name: `${body.firstName} ${body.lastName}`,
-      email: body.email,
-      major: body.major,
-      graduationYear: body.graduationYear,
-      skills: body.skills,
-      timestamp: new Date().toISOString(),
-    });
+    // Save to Supabase database
+    const { data, error } = await supabase
+      .from('students')
+      .insert({
+        first_name: body.firstName,
+        last_name: body.lastName,
+        email: body.email,
+        major: body.major,
+        graduation_year: body.graduationYear,
+        gpa: body.gpa || null,
+        linkedin_url: body.linkedInUrl,
+        skills: body.skills,
+        location_preferences: body.locationPreferences || [],
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Supabase error:', error);
+      
+      // Handle unique constraint violation (duplicate email)
+      if (error.code === '23505') {
+        return NextResponse.json(
+          { success: false, message: 'This email is already registered' },
+          { status: 409 }
+        );
+      }
+      
+      return NextResponse.json(
+        { success: false, message: 'Failed to save registration' },
+        { status: 500 }
+      );
+    }
 
     // Return success response
     return NextResponse.json(
@@ -67,8 +91,7 @@ export async function POST(request: NextRequest) {
         message: 'Registration submitted successfully',
         data: {
           email: body.email,
-          // Return a placeholder ID until database is connected
-          studentId: `temp-${Date.now()}`,
+          studentId: data.id,
         },
       },
       { status: 201 }

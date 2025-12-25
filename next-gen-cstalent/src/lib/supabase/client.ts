@@ -1,21 +1,19 @@
 /**
  * Supabase Client
- * Placeholder for Supabase client initialization
- * TODO: Add actual Supabase configuration
+ * Creates and exports a Supabase client for database operations
  */
 
-// import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js';
 
-// const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-// const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-// export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Missing Supabase environment variables');
+}
 
-// Placeholder export until Supabase is configured
-export const supabase = null;
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export function getSupabaseClient() {
-  // TODO: Return actual Supabase client when configured
-  console.warn('Supabase client not configured yet');
-  return null;
+  return supabase;
 }
