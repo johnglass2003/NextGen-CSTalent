@@ -15,7 +15,7 @@ export default function Footer() {
         <div className={styles.footerGrid}>
           {/* Brand Section */}
           <section className={styles.brandSection}>
-            <h3 className={styles.brandName}>TalentBridge</h3>
+            <h3 className={styles.brandName}>NextGen-CSTalent</h3>
             <p className={styles.brandDescription}>
               UF Engineers vetting UF Engineers. Direct access to pre-vetted 
               technical talent from the University of Florida.
@@ -49,8 +49,8 @@ export default function Footer() {
             <h4 className={styles.linksTitle}>Contact</h4>
             <address className={styles.contactInfo}>
               <p>Gainesville, FL</p>
-              <a href="mailto:hello@talentbridge.dev" className={styles.footerLink}>
-                hello@talentbridge.dev
+              <a href="mailto:hello@NextGen-CSTalent.dev" className={styles.footerLink}>
+                hello@NextGen-CSTalent.dev
               </a>
             </address>
           </section>
@@ -58,7 +58,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className={styles.copyright}>
-          <p>&copy; {currentYear} TalentBridge. All rights reserved.</p>
+          <p>&copy; {currentYear} NextGen-CSTalent. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -9,7 +9,7 @@ import Footer from '@/components/layout/Footer';
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
-  title: 'TalentBridge - UF Engineering Talent Pipeline',
+  title: 'NextGen-CSTalent - UF Engineering Talent Pipeline',
   description:
     'UF Engineers vetting UF Engineers. Direct access to pre-vetted technical talent from the University of Florida.',
   keywords: ['UF', 'engineering', 'talent', 'hiring', 'students', 'jobs'],

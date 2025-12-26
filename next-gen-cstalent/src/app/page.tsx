@@ -49,8 +49,8 @@ export default function LandingPage() {
                   Join the vetted talent pool and get connected with companies
                   actively hiring UF engineers
                 </p>
-                <Link href="/students/register" className={styles.ctaButton}>
-                  Register &amp; Get Assessed
+                <Link href="/for-students" className={styles.ctaButton}>
+                  Apply to Join the NextGen Talent Pool
                 </Link>
               </div>
 
@@ -61,11 +61,68 @@ export default function LandingPage() {
                   Access pre-vetted UF engineering talent without the agency fees
                   or LinkedIn costs
                 </p>
-                <Link href="/companies" className={styles.ctaButton}>
-                  Schedule Discovery Call
+                <Link href="/for-companies" className={styles.ctaButton}>
+                  Schedule a Call
                 </Link>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why NextGen CS Talent Section */}
+      <section className={styles.whySection}>
+        <div className={styles.container}>
+          <h2 className={styles.sectionTitle}>Why NextGen CS Talent?</h2>
+          <div className={styles.whyGrid}>
+            <div className={styles.whyCard}>
+              <div className={styles.whyIcon}>
+                <CodeIcon />
+              </div>
+              <h3 className={styles.whyTitle}>Engineers Vetting Engineers</h3>
+              <p className={styles.whyDescription}>
+                Real UF engineering students conduct technical interviews. We&apos;ve been
+                through the process and know what matters beyond a resume.
+              </p>
+            </div>
+
+            <div className={styles.whyCard}>
+              <div className={styles.whyIcon}>
+                <TrophyIcon />
+              </div>
+              <h3 className={styles.whyTitle}>Top Performers Only</h3>
+              <p className={styles.whyDescription}>
+                Companies only see our highest-rated candidates. We proactively send
+                profiles based on specific needs—no resume spam.
+              </p>
+            </div>
+
+            <div className={styles.whyCard}>
+              <div className={styles.whyIcon}>
+                <MessageIcon />
+              </div>
+              <h3 className={styles.whyTitle}>No AI, Just Real Feedback</h3>
+              <p className={styles.whyDescription}>
+                Every candidate gets honest technical feedback from peers. Whether you
+                make our top performer pool or not, you&apos;ll know where you stand.
+              </p>
+            </div>
+
+            <div className={styles.whyCard}>
+              <div className={styles.whyIcon}>
+                <DollarIcon />
+              </div>
+              <h3 className={styles.whyTitle}>Transparent &amp; Affordable</h3>
+              <p className={styles.whyDescription}>
+                Students pay nothing. Companies pay flat monthly fees instead of 20-25%
+                placement markups or $18K/quarter recruiter tools.
+              </p>
+            </div>
+          </div>
+          <div className={styles.whyCta}>
+            <Link href="/for-companies#how-were-different" className={styles.secondaryButton}>
+              See How We&apos;re Different
+            </Link>
           </div>
         </div>
       </section>
@@ -74,39 +131,97 @@ export default function LandingPage() {
       <section className={styles.howItWorksSection}>
         <div className={styles.container}>
           <h2 className={styles.sectionTitle}>How It Works</h2>
-          <div className={styles.processGrid}>
-            <div className={styles.processStep}>
-              <div className={styles.processIcon}>
-                <TargetIcon />
+          <div className={styles.howItWorksGrid}>
+            {/* For Students */}
+            <div className={styles.processColumn}>
+              <h3 className={styles.processColumnTitle}>For Students</h3>
+              <div className={styles.processSteps}>
+                <div className={styles.processStepItem}>
+                  <div className={styles.stepNumber}>1</div>
+                  <div className={styles.stepContent}>
+                    <h4 className={styles.stepTitle}>Apply Online</h4>
+                    <p className={styles.stepDescription}>
+                      Submit your resume and preferences. We review within 3 business days.
+                    </p>
+                  </div>
+                </div>
+                <div className={styles.processStepItem}>
+                  <div className={styles.stepNumber}>2</div>
+                  <div className={styles.stepContent}>
+                    <h4 className={styles.stepTitle}>Get Interviewed</h4>
+                    <p className={styles.stepDescription}>
+                      If you&apos;re competitive, we&apos;ll send you a scheduling link for a
+                      45-minute technical interview with our team.
+                    </p>
+                  </div>
+                </div>
+                <div className={styles.processStepItem}>
+                  <div className={styles.stepNumber}>3</div>
+                  <div className={styles.stepContent}>
+                    <h4 className={styles.stepTitle}>Receive Feedback</h4>
+                    <p className={styles.stepDescription}>
+                      Everyone gets detailed technical feedback, whether you join our
+                      top performer pool or not.
+                    </p>
+                  </div>
+                </div>
+                <div className={styles.processStepItem}>
+                  <div className={styles.stepNumber}>4</div>
+                  <div className={styles.stepContent}>
+                    <h4 className={styles.stepTitle}>Get Matched</h4>
+                    <p className={styles.stepDescription}>
+                      Top performers get their profiles sent directly to companies
+                      seeking their specific skills.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <h3 className={styles.processTitle}>Peer Technical Vetting</h3>
-              <p className={styles.processDescription}>
-                UF engineers review coding challenges and conduct technical
-                screens. We know what it takes because we&apos;ve been there.
-              </p>
             </div>
 
-            <div className={styles.processStep}>
-              <div className={styles.processIcon}>
-                <StarIcon />
+            {/* For Companies */}
+            <div className={styles.processColumn}>
+              <h3 className={styles.processColumnTitleBlue}>For Companies</h3>
+              <div className={styles.processSteps}>
+                <div className={styles.processStepItem}>
+                  <div className={`${styles.stepNumber} ${styles.stepNumberBlue}`}>1</div>
+                  <div className={styles.stepContent}>
+                    <h4 className={styles.stepTitle}>Tell Us Your Needs</h4>
+                    <p className={styles.stepDescription}>
+                      Schedule a discovery call. We learn about your tech stack, timeline,
+                      location preferences, and culture.
+                    </p>
+                  </div>
+                </div>
+                <div className={styles.processStepItem}>
+                  <div className={`${styles.stepNumber} ${styles.stepNumberBlue}`}>2</div>
+                  <div className={styles.stepContent}>
+                    <h4 className={styles.stepTitle}>Receive Top Performers</h4>
+                    <p className={styles.stepDescription}>
+                      We proactively send you candidate profiles that match your requirements.
+                      No sifting through hundreds of resumes.
+                    </p>
+                  </div>
+                </div>
+                <div className={styles.processStepItem}>
+                  <div className={`${styles.stepNumber} ${styles.stepNumberBlue}`}>3</div>
+                  <div className={styles.stepContent}>
+                    <h4 className={styles.stepTitle}>Interview &amp; Hire</h4>
+                    <p className={styles.stepDescription}>
+                      Every candidate we send has been technically vetted by UF engineers.
+                      Start with phone screens, not resume screening.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <h3 className={styles.processTitle}>Curated Matching</h3>
-              <p className={styles.processDescription}>
-                Companies tell us exactly what they need. We manually match
-                students based on skills, location preferences, and culture fit.
-              </p>
             </div>
-
-            <div className={styles.processStep}>
-              <div className={styles.processIcon}>
-                <CheckIcon />
-              </div>
-              <h3 className={styles.processTitle}>No Recruiter Markup</h3>
-              <p className={styles.processDescription}>
-                Skip the $18K LinkedIn Recruiter fees and agency placement costs.
-                Direct access to vetted UF talent.
-              </p>
-            </div>
+          </div>
+          <div className={styles.processCtaButtons}>
+            <Link href="/for-students#the-process" className={styles.primaryButton}>
+              Student Process Details
+            </Link>
+            <Link href="/for-companies#our-solution" className={styles.secondaryButton}>
+              Company Process Details
+            </Link>
           </div>
         </div>
       </section>
@@ -249,6 +364,77 @@ function StarIcon() {
       strokeLinejoin="round"
     >
       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
+  );
+}
+
+function CodeIcon() {
+  return (
+    <svg
+      className={styles.whyIconSvg}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <polyline points="16 18 22 12 16 6" />
+      <polyline points="8 6 2 12 8 18" />
+    </svg>
+  );
+}
+
+function TrophyIcon() {
+  return (
+    <svg
+      className={styles.whyIconSvg}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+      <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+      <path d="M4 22h16" />
+      <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+      <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+      <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+    </svg>
+  );
+}
+
+function MessageIcon() {
+  return (
+    <svg
+      className={styles.whyIconSvg}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    </svg>
+  );
+}
+
+function DollarIcon() {
+  return (
+    <svg
+      className={styles.whyIconSvg}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <line x1="12" y1="1" x2="12" y2="23" />
+      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
     </svg>
   );
 }

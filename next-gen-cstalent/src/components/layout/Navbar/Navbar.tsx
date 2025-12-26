@@ -11,17 +11,17 @@ export default function Navbar() {
     <header className={styles.header}>
       <nav className={styles.navbar}>
         <Link href="/" className={styles.logo}>
-          TalentBridge
+          NextGen-CSTalent
         </Link>
         
         <ul className={styles.navLinks}>
           <li>
-            <Link href="/students" className={styles.navLink}>
+            <Link href="/for-students" className={styles.navLink}>
               For Students
             </Link>
           </li>
           <li>
-            <Link href="/companies" className={styles.navLink}>
+            <Link href="/for-companies" className={styles.navLink}>
               For Companies
             </Link>
           </li>

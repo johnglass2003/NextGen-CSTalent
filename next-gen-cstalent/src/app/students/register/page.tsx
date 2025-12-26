@@ -7,8 +7,8 @@ import RegistrationForm from '@/components/students/RegistrationForm';
 import styles from './page.module.css';
 
 export const metadata = {
-  title: 'Register - TalentBridge',
-  description: 'Join the TalentBridge talent pool and get connected with companies hiring UF engineers.',
+  title: 'Register - NextGen-CSTalent',
+  description: 'Join the NextGen-CSTalent talent pool and get connected with companies hiring UF engineers.',
 };
 
 export default function RegisterPage() {
