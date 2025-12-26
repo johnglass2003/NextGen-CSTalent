@@ -17,8 +17,8 @@ export default function Footer() {
           <section className={styles.brandSection}>
             <h3 className={styles.brandName}>NextGen-CSTalent</h3>
             <p className={styles.brandDescription}>
-              UF Engineers vetting UF Engineers. Direct access to pre-vetted 
-              technical talent from the University of Florida.
+              Engineers vetting Engineers. Direct access to pre-vetted 
+              technical talent.
             </p>
           </section>
 
@@ -27,17 +27,17 @@ export default function Footer() {
             <h4 className={styles.linksTitle}>Quick Links</h4>
             <ul className={styles.linksList}>
               <li>
-                <Link href="/students" className={styles.footerLink}>
+                <Link href="/for-students" scroll={true} className={styles.footerLink}>
                   For Students
                 </Link>
               </li>
               <li>
-                <Link href="/companies" className={styles.footerLink}>
+                <Link href="/for-companies" scroll={true} className={styles.footerLink}>
                   For Companies
                 </Link>
               </li>
               <li>
-                <Link href="/about" className={styles.footerLink}>
+                <Link href="/about" scroll={true} className={styles.footerLink}>
                   About Us
                 </Link>
               </li>

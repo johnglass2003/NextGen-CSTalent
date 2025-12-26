@@ -73,8 +73,8 @@
 
 .featureBadges {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-md);
+  flex-direction: column;
+  gap: var(--spacing-sm);
 }
 
 .featureBadge {
@@ -317,6 +317,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--spacing-xl);
+  justify-items: center;
 }
 
 @media (min-width: 768px) {
@@ -327,7 +328,29 @@
 
 @media (min-width: 1024px) {
   .whyGrid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .whyGrid .whyCard:nth-child(4),
+  .whyGrid .whyCard:nth-child(5) {
+    grid-column: span 1;
+  }
+  
+  .whyGrid {
+    justify-content: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  .whyGrid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .whyCard {
+    flex: 0 0 calc(33.333% - var(--spacing-xl));
+    max-width: calc(33.333% - var(--spacing-xl));
   }
 }
 

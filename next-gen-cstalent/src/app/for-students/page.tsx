@@ -14,9 +14,56 @@ export default function ForStudentsPage() {
             Join the NextGen Talent Pool — a curated group of top CS students 
             ready to connect with leading companies.
           </p>
-          <Link href="#the-process" className={styles.primaryButton}>
-            See How It Works
+          <Link href="/students/register" className={styles.primaryButton}>
+            Apply Now
           </Link>
+        </div>
+      </section>
+
+      {/* The Process Section */}
+      <section id="the-process" className={styles.processSection}>
+        <div className={styles.container}>
+          <h2 className={styles.sectionTitle}>The Process</h2>
+          <div className={styles.processSteps}>
+            <div className={styles.processStep}>
+              <div className={styles.stepNumber}>1</div>
+              <div className={styles.stepContent}>
+                <h3 className={styles.stepTitle}>Apply</h3>
+                <p className={styles.stepDescription}>
+                  Fill out a short application with your resume, background, and goals. We'll get back to you within 3 business days.
+                </p>
+              </div>
+            </div>
+            <div className={styles.processStep}>
+              <div className={styles.stepNumber}>2</div>
+              <div className={styles.stepContent}>
+                <h3 className={styles.stepTitle}>Interview</h3>
+                <p className={styles.stepDescription}>
+                  When selected, complete a 45-minute technical and behavioral interview with a member of our team.
+                </p>
+              </div>
+            </div>
+            <div className={styles.processStep}>
+              <div className={styles.stepNumber}>3</div>
+              <div className={styles.stepContent}>
+                <h3 className={styles.stepTitle}>Receive Feedback</h3>
+                <p className={styles.stepDescription}>
+                  Everyone gets detailed feedback from our team. If you&apos;re not
+                  in the top bracket, we&apos;ll show you what it takes to get there.
+                </p>
+              </div>
+            </div>
+            <div className={styles.processStep}>
+              <div className={styles.stepNumber}>4</div>
+              <div className={styles.stepContent}>
+                <h3 className={styles.stepTitle}>Get Matched</h3>
+                <p className={styles.stepDescription}>
+                  Top performers get introduced to companies looking for candidates
+                  like you.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -32,7 +79,7 @@ export default function ForStudentsPage() {
               <h3 className={styles.benefitTitle}>Credibility</h3>
               <p className={styles.benefitDescription}>
                 Being in the NextGen Talent Pool tells employers you&apos;re among 
-                the top CS students — not just someone who applied.
+                the top CS students, not just someone who applied.
               </p>
             </div>
             <div className={styles.benefitCard}>
@@ -59,48 +106,50 @@ export default function ForStudentsPage() {
         </div>
       </section>
 
-      {/* The Process Section */}
-      <section id="the-process" className={styles.processSection}>
+      {/* How We're Different Section */}
+      <section className={styles.differenceSection}>
         <div className={styles.container}>
-          <h2 className={styles.sectionTitle}>The Process</h2>
-          <div className={styles.processSteps}>
-            <div className={styles.processStep}>
-              <div className={styles.stepNumber}>1</div>
-              <div className={styles.stepContent}>
-                <h3 className={styles.stepTitle}>Apply</h3>
-                <p className={styles.stepDescription}>
-                  Fill out a short application with your resume, background, and goals.
-                </p>
+          <h2 className={styles.sectionTitle}>We Get It. We&apos;ve Been There.</h2>
+          <p className={styles.differenceIntro}>
+            The job search is broken. You know it, we know it. 
+            <strong> So we built something better.</strong>
+          </p>
+          <div className={styles.differenceGrid}>
+            <div className={styles.differenceCard}>
+              <div className={styles.differenceIcon}>
+                <NoSpamIcon />
               </div>
+              <h3 className={styles.differenceTitle}>No More Mass-Applying</h3>
+              <p className={styles.differenceDescription}>
+                Get vetted once. Let companies find you.
+              </p>
             </div>
-            <div className={styles.processStep}>
-              <div className={styles.stepNumber}>2</div>
-              <div className={styles.stepContent}>
-                <h3 className={styles.stepTitle}>Interview</h3>
-                <p className={styles.stepDescription}>
-                  If selected, complete a brief technical and behavioral interview.
-                </p>
+            <div className={styles.differenceCard}>
+              <div className={styles.differenceIcon}>
+                <FeedbackIcon />
               </div>
+              <h3 className={styles.differenceTitle}>Real Feedback</h3>
+              <p className={styles.differenceDescription}>
+                Actionable insights on your skills, not a generic rejection.
+              </p>
             </div>
-            <div className={styles.processStep}>
-              <div className={styles.stepNumber}>3</div>
-              <div className={styles.stepContent}>
-                <h3 className={styles.stepTitle}>Get Accepted</h3>
-                <p className={styles.stepDescription}>
-                  Accepted students are added to the NextGen Talent Pool and 
-                  become eligible for company matching.
-                </p>
+            <div className={styles.differenceCard}>
+              <div className={styles.differenceIcon}>
+                <ConnectionIcon />
               </div>
+              <h3 className={styles.differenceTitle}>Direct Connections</h3>
+              <p className={styles.differenceDescription}>
+                Skip the resume black hole. Get seen by hiring managers.
+              </p>
             </div>
-            <div className={styles.processStep}>
-              <div className={styles.stepNumber}>4</div>
-              <div className={styles.stepContent}>
-                <h3 className={styles.stepTitle}>Get Matched</h3>
-                <p className={styles.stepDescription}>
-                  We introduce you to companies looking for candidates like you. 
-                  You choose who to interview with.
-                </p>
+            <div className={styles.differenceCard}>
+              <div className={styles.differenceIcon}>
+                <EngineerIcon />
               </div>
+              <h3 className={styles.differenceTitle}>Evaluated by Engineers</h3>
+              <p className={styles.differenceDescription}>
+                Real engineers review your work, not AI filters.
+              </p>
             </div>
           </div>
         </div>
@@ -202,6 +251,39 @@ function DollarIcon() {
   return (
     <svg className={styles.itemIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  );
+}
+
+// How We're Different Icons
+function NoSpamIcon() {
+  return (
+    <svg className={styles.iconSvg} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+    </svg>
+  );
+}
+
+function FeedbackIcon() {
+  return (
+    <svg className={styles.iconSvg} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+    </svg>
+  );
+}
+
+function ConnectionIcon() {
+  return (
+    <svg className={styles.iconSvg} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+    </svg>
+  );
+}
+
+function EngineerIcon() {
+  return (
+    <svg className={styles.iconSvg} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
     </svg>
   );
 }

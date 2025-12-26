@@ -39,6 +39,7 @@
 .solutionSection {
   padding: var(--spacing-3xl) 0;
   background-color: var(--color-bg-secondary);
+  scroll-margin-top: 100px;
 }
 
 .pricingSection {
@@ -189,6 +190,70 @@
   color: var(--color-text-secondary);
   font-size: var(--font-size-base);
   line-height: 1.6;
+}
+
+/* Comparison Table Section */
+.comparisonSection {
+  padding: var(--spacing-3xl) 0;
+  background-color: var(--color-bg-secondary);
+}
+
+.comparisonTableWrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.comparisonTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+  background-color: var(--color-bg-primary);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.comparisonTable th,
+.comparisonTable td {
+  padding: var(--spacing-md) var(--spacing-lg);
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.comparisonTable thead th {
+  background-color: var(--color-bg-secondary);
+  font-weight: 700;
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+}
+
+.comparisonTable tbody td {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.comparisonTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.comparisonTable tbody tr:hover {
+  background-color: var(--color-bg-secondary);
+}
+
+.rowLabel {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.highlightColumn {
+  background-color: rgba(249, 115, 22, 0.08);
+  color: var(--color-primary-orange);
+  font-weight: 600;
+}
+
+.comparisonTable thead th.highlightColumn {
+  background-color: var(--color-primary-orange);
+  color: white;
 }
 
 /* Pricing Card */

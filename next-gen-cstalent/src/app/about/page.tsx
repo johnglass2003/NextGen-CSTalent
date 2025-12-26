@@ -26,8 +26,8 @@ export default function AboutPage() {
 
             <p className={styles.storyParagraph}>
               As computer science students, we spent countless hours applying to 
-              hundreds of internships — tailoring resumes, writing cover letters, 
-              grinding LeetCode — only to hear crickets from most companies. The 
+              hundreds of internships. We tailored resumes, wrote cover letters, 
+              and grinded through LeetCode only to hear crickets from most companies. The 
               process felt like shouting into a void.
             </p>
 
@@ -51,9 +51,7 @@ export default function AboutPage() {
 
             <p className={styles.storyParagraph}>
               NextGen CS Talent is a curated talent pool where top CS students 
-              are vetted by people who know what &quot;good&quot; looks like — 
-              current and former interns at companies like Google, Meta, Amazon, 
-              and top startups. We interview students for both technical ability 
+              are vetted by people who know what &quot;good&quot; looks like. We interview students for both technical ability 
               and communication skills, then connect them directly with companies 
               looking for quality over quantity.
             </p>
@@ -65,8 +63,8 @@ export default function AboutPage() {
 
             <p className={styles.storyParagraph}>
               We&apos;re not a job board. We&apos;re not a recruiting agency in 
-              the traditional sense. We&apos;re a bridge — built by students, for 
-              students and the companies smart enough to hire them.
+              the traditional sense. We&apos;re a bridge built by students, for 
+              students and the companies looking to hire them.
             </p>
 
             <div className={styles.storySignature}>

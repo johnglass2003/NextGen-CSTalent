@@ -15,13 +15,13 @@ export default function LandingPage() {
           <div className={styles.heroGrid}>
             {/* Hero Content */}
             <div className={styles.heroContent}>
-              <span className={styles.badge}>UF Engineering Talent Pipeline</span>
+              <span className={styles.badge}>Computer Science Talent Pipeline</span>
               <h1 className={styles.heroTitle}>
-                UF Engineers Vetting UF Engineers
+                Engineers Vetting Engineers
               </h1>
               <p className={styles.heroDescription}>
-                We&apos;re three UF engineering students who personally test, interview,
-                and rank fellow Gators. Companies get pre-vetted technical talent.
+                We&apos;re three engineering students who personally test, interview,
+                and rank fellow students. Companies get pre-vetted technical talent.
                 Students get real opportunities.
               </p>
               <ul className={styles.featureBadges}>
@@ -35,7 +35,7 @@ export default function LandingPage() {
                 </li>
                 <li className={styles.featureBadge}>
                   <CheckIcon />
-                  <span>UF network advantage</span>
+                  <span>Competitive Pricing</span>
                 </li>
               </ul>
             </div>
@@ -47,7 +47,7 @@ export default function LandingPage() {
                 <h3 className={styles.ctaTitle}>For Students</h3>
                 <p className={styles.ctaDescription}>
                   Join the vetted talent pool and get connected with companies
-                  actively hiring UF engineers
+                  actively hiring engineers
                 </p>
                 <Link href="/for-students" className={styles.ctaButton}>
                   Apply to Join the NextGen Talent Pool
@@ -58,11 +58,10 @@ export default function LandingPage() {
                 <BuildingIcon />
                 <h3 className={styles.ctaTitle}>For Companies</h3>
                 <p className={styles.ctaDescription}>
-                  Access pre-vetted UF engineering talent without the agency fees
-                  or LinkedIn costs
+                  Access pre-vetted engineering talent without the agency fees or enterprise software pricings
                 </p>
                 <Link href="/for-companies" className={styles.ctaButton}>
-                  Schedule a Call
+                  Explore Our Hiring Solution
                 </Link>
               </div>
             </div>
@@ -81,7 +80,7 @@ export default function LandingPage() {
               </div>
               <h3 className={styles.whyTitle}>Engineers Vetting Engineers</h3>
               <p className={styles.whyDescription}>
-                Real UF engineering students conduct technical interviews. We&apos;ve been
+                Real engineering students conduct technical interviews. We&apos;ve been
                 through the process and know what matters beyond a resume.
               </p>
             </div>
@@ -93,7 +92,7 @@ export default function LandingPage() {
               <h3 className={styles.whyTitle}>Top Performers Only</h3>
               <p className={styles.whyDescription}>
                 Companies only see our highest-rated candidates. We proactively send
-                profiles based on specific needs—no resume spam.
+                profiles based on specific needs.
               </p>
             </div>
 
@@ -114,8 +113,18 @@ export default function LandingPage() {
               </div>
               <h3 className={styles.whyTitle}>Transparent &amp; Affordable</h3>
               <p className={styles.whyDescription}>
-                Students pay nothing. Companies pay flat monthly fees instead of 20-25%
-                placement markups or $18K/quarter recruiter tools.
+                Students pay nothing. Companies get the most competitive rates in the industry.
+              </p>
+            </div>
+
+            <div className={styles.whyCard}>
+              <div className={styles.whyIcon}>
+                <TargetIcon />
+              </div>
+              <h3 className={styles.whyTitle}>Tailored to Your Needs</h3>
+              <p className={styles.whyDescription}>
+                We build relationships with teams to understand exactly
+                what you&apos;re looking for. Every candidate you see is hand-picked for your team.
               </p>
             </div>
           </div>
@@ -197,7 +206,7 @@ export default function LandingPage() {
                   <div className={styles.stepContent}>
                     <h4 className={styles.stepTitle}>Receive Top Performers</h4>
                     <p className={styles.stepDescription}>
-                      We proactively send you candidate profiles that match your requirements.
+                      We proactively send you top performing candidate profiles that match your requirements.
                       No sifting through hundreds of resumes.
                     </p>
                   </div>
@@ -207,7 +216,7 @@ export default function LandingPage() {
                   <div className={styles.stepContent}>
                     <h4 className={styles.stepTitle}>Interview &amp; Hire</h4>
                     <p className={styles.stepDescription}>
-                      Every candidate we send has been technically vetted by UF engineers.
+                      Every candidate we send has been technically vetted by engineers.
                       Start with phone screens, not resume screening.
                     </p>
                   </div>
@@ -216,7 +225,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className={styles.processCtaButtons}>
-            <Link href="/for-students#the-process" className={styles.primaryButton}>
+            <Link href="/for-students" className={styles.primaryButton}>
               Student Process Details
             </Link>
             <Link href="/for-companies#our-solution" className={styles.secondaryButton}>
@@ -230,16 +239,16 @@ export default function LandingPage() {
       <section className={styles.teamSection}>
         <div className={styles.container}>
           <header className={styles.teamHeader}>
-            <h2 className={styles.sectionTitle}>Meet Your UF Engineering Team</h2>
+            <h2 className={styles.sectionTitle}>Meet Your Engineering Team</h2>
             <p className={styles.sectionSubtitle}>
-              Three Gators who&apos;ve been through technical interviews and know
+              Three engineers who&apos;ve been through technical interviews and know
               what it takes
             </p>
           </header>
           <div className={styles.teamGrid}>
-            <TeamMember name="Alex Foster" role="Co-Founder" school="UF CS '25" initials="AF" />
-            <TeamMember name="Sarah Martinez" role="Co-Founder" school="UF CE '25" initials="SM" />
-            <TeamMember name="Jordan Patel" role="Co-Founder" school="UF CS '26" initials="JP" />
+            <TeamMember name="John Glass" role="Co-Founder" school="CS '25" initials="JG" />
+            <TeamMember name="Amanda Brannon" role="Co-Founder" school="CS '26" initials="AB" />
+            <TeamMember name="Mattew Li" role="Co-Founder" school="CS '26" initials="ML" />
           </div>
         </div>
       </section>

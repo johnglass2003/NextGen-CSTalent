@@ -31,7 +31,7 @@ export default function ForCompaniesPage() {
               <h3 className={styles.problemTitle}>Flooded Inboxes</h3>
               <p className={styles.problemDescription}>
                 You post a job, get 500 applications, and spend weeks sorting 
-                through resumes — most of which don&apos;t meet your bar.
+                through resumes that don&apos;t meet your needs.
               </p>
             </div>
             <div className={styles.problemCard}>
@@ -40,7 +40,7 @@ export default function ForCompaniesPage() {
               </div>
               <h3 className={styles.problemTitle}>Unknown Quality</h3>
               <p className={styles.problemDescription}>
-                Resumes lie. You can&apos;t tell who can actually code until 
+                Resumes lie, AI use is rampant. You can&apos;t tell who can actually code until 
                 you&apos;ve invested hours in interviews.
               </p>
             </div>
@@ -50,8 +50,8 @@ export default function ForCompaniesPage() {
               </div>
               <h3 className={styles.problemTitle}>Time Drain</h3>
               <p className={styles.problemDescription}>
-                Your engineers spend more time interviewing unqualified 
-                candidates than building product.
+                Your engineers spend valuable time interviewing unqualified 
+                candidates rather than building product.
               </p>
             </div>
           </div>
@@ -73,7 +73,7 @@ export default function ForCompaniesPage() {
               <div className={styles.stepContent}>
                 <h3 className={styles.stepTitle}>Tell us what you&apos;re looking for</h3>
                 <p className={styles.stepDescription}>
-                  Role type, tech stack, team culture, start date — we get to know 
+                  Role type, tech stack, team culture, and start date. We get to know 
                   your needs.
                 </p>
               </div>
@@ -108,34 +108,99 @@ export default function ForCompaniesPage() {
           <h2 className={styles.sectionTitle}>How We&apos;re Different</h2>
           <div className={styles.differenceGrid}>
             <div className={styles.differenceCard}>
-              <h3 className={styles.differenceTitle}>Student-Run, Insider Knowledge</h3>
+              <h3 className={styles.differenceTitle}>Pre-Vetted Top Performers Only</h3>
               <p className={styles.differenceDescription}>
-                We&apos;re current and former interns at companies like Google, 
-                Meta, and Amazon. We know what &quot;good&quot; looks like because 
-                we&apos;ve been through the process ourselves.
+                Every candidate is technically interviewed by actual engineers. We conduct
+                45-minute technical interviews after reviewing resumes. You only see our
+                top performers: we proactively send you the strongest candidates who match your needs.
               </p>
             </div>
             <div className={styles.differenceCard}>
-              <h3 className={styles.differenceTitle}>Quality Over Quantity</h3>
+              <h3 className={styles.differenceTitle}>We Send You Candidates</h3>
               <p className={styles.differenceDescription}>
-                We don&apos;t flood you with candidates. Every match is 
-                intentional and based on fit.
+                You tell us your requirements. We proactively match and send you profiles
+                of top performers. No more sifting through hundreds of unqualified applications.
+              </p>
+            </div>
+            <div className={styles.differenceCard}>
+              <h3 className={styles.differenceTitle}>Niche Targeting That Works</h3>
+              <p className={styles.differenceDescription}>
+                Need someone graduating in December who wants to stay in Florida? We can
+                tell you exactly who that is in our vetted pool. Specific requirements, specific matches.
+              </p>
+            </div>
+            <div className={styles.differenceCard}>
+              <h3 className={styles.differenceTitle}>Engineers Vetting Engineers</h3>
+              <p className={styles.differenceDescription}>
+                We&apos;ve been through technical interviews. We&apos;ve built projects.
+                We know what matters and what doesn&apos;t when evaluating engineering talent.
+              </p>
+            </div>
+            <div className={styles.differenceCard}>
+              <h3 className={styles.differenceTitle}>Transparent, Affordable Pricing</h3>
+              <p className={styles.differenceDescription}>
+                Simple pricing instead of per-hire markups. No surprises.
+                We&apos;re 3 engineers, not an agency with overhead.
               </p>
             </div>
             <div className={styles.differenceCard}>
               <h3 className={styles.differenceTitle}>Fast Turnaround</h3>
               <p className={styles.differenceDescription}>
-                Need someone in 2 weeks? We move fast because our candidates 
-                are already vetted and ready.
+                Need someone in 2 weeks? We move fast because our candidates
+                are already vetted and ready to interview.
               </p>
             </div>
-            <div className={styles.differenceCard}>
-              <h3 className={styles.differenceTitle}>No Upfront Cost</h3>
-              <p className={styles.differenceDescription}>
-                You only pay when you hire. No subscription fees, no per-seat 
-                pricing, no risk.
-              </p>
-            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Comparison Table Section */}
+      <section className={styles.comparisonSection}>
+        <div className={styles.container}>
+          <h2 className={styles.sectionTitle}>How We Compare</h2>
+          <div className={styles.comparisonTableWrapper}>
+            <table className={styles.comparisonTable}>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th className={styles.highlightColumn}>NextGen CS Talent</th>
+                  <th>Staffing Agencies</th>
+                  <th>Enterprise Recruiter Tools</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className={styles.rowLabel}>Pricing</td>
+                  <td className={styles.highlightColumn}>Competitive flat fees</td>
+                  <td>20-25% of salary per hire</td>
+                  <td>5-figure quarterly subscriptions</td>
+                </tr>
+                <tr>
+                  <td className={styles.rowLabel}>Vetting</td>
+                  <td className={styles.highlightColumn}>Engineers conduct technical interviews</td>
+                  <td>Non-technical recruiters</td>
+                  <td>No vetting, just search access</td>
+                </tr>
+                <tr>
+                  <td className={styles.rowLabel}>Process</td>
+                  <td className={styles.highlightColumn}>We send you top performers</td>
+                  <td>Agency owns the relationship</td>
+                  <td>You sift through hundreds of applicants</td>
+                </tr>
+                <tr>
+                  <td className={styles.rowLabel}>Candidate Pool</td>
+                  <td className={styles.highlightColumn}>Focused, curated network</td>
+                  <td>Generic candidate pools</td>
+                  <td>Everyone, no filtering</td>
+                </tr>
+                <tr>
+                  <td className={styles.rowLabel}>Transparency</td>
+                  <td className={styles.highlightColumn}>Clear, honest process</td>
+                  <td>Black box sourcing</td>
+                  <td>Overwhelming noise</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
