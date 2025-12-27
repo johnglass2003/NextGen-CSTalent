@@ -17,12 +17,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: var(--spacing-lg);
 }
 
 .logo {
   font-size: var(--font-size-xl);
   font-weight: 700;
   color: var(--color-primary-orange);
+  flex-shrink: 0;
 }
 
 .logo:hover {
@@ -45,10 +47,58 @@
   color: var(--color-text-primary);
 }
 
+.loginButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: white;
+  background: var(--color-primary-orange);
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition-fast);
+}
+
+.loginButton:hover {
+  background: var(--color-primary-orange-dark);
+}
+
+.loadingPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+}
+
+.loadingDot {
+  width: 8px;
+  height: 8px;
+  background: var(--color-primary-orange);
+  border-radius: 50%;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
 /* Mobile responsive styles */
 @media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+  }
+  
   .navLinks {
     gap: var(--spacing-md);
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
   }
   
   .navLink {

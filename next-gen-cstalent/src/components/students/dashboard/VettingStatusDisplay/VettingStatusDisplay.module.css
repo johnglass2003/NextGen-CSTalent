@@ -1,0 +1,175 @@
+/**
+ * VettingStatusDisplay Styles
+ */
+
+.statusCard {
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  border: 2px solid var(--color-border);
+  transition: border-color var(--transition-base);
+}
+
+.statusCard.warning {
+  border-color: var(--color-warning);
+  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, rgba(245, 158, 11, 0.05) 100%);
+}
+
+.statusCard.info {
+  border-color: var(--color-primary-blue);
+  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, rgba(37, 99, 235, 0.05) 100%);
+}
+
+.statusCard.success {
+  border-color: var(--color-success);
+  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, rgba(16, 185, 129, 0.05) 100%);
+}
+
+.statusCard.danger {
+  border-color: var(--color-error);
+  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, rgba(239, 68, 68, 0.05) 100%);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.icon {
+  font-size: var(--font-size-2xl);
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.message {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Interview Scheduled Styles */
+.interviewInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.interviewDate {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-primary-blue);
+  margin: 0;
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background-color: var(--color-primary-blue);
+  color: white;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  font-size: var(--font-size-sm);
+  transition: background-color var(--transition-fast);
+  width: fit-content;
+}
+
+.actionButton:hover {
+  background-color: var(--color-primary-blue-dark);
+}
+
+/* Vetted Styles */
+.vettedInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.scoreDisplay {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  background: var(--color-bg-primary);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  width: fit-content;
+}
+
+.scoreLabel {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.scoreValue {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--color-success);
+}
+
+/* Not Accepted Styles */
+.notAcceptedInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.feedbackBox {
+  background: var(--color-bg-primary);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-error);
+}
+
+.feedbackLabel {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.feedbackText {
+  color: var(--color-text-secondary);
+  margin: 0;
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+}
+
+.reapplyMessage {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-style: italic;
+  margin: 0;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .statusCard {
+    background: var(--color-bg-tertiary);
+  }
+  
+  .statusCard.warning {
+    background: linear-gradient(135deg, var(--color-bg-tertiary) 0%, rgba(245, 158, 11, 0.1) 100%);
+  }
+  
+  .statusCard.info {
+    background: linear-gradient(135deg, var(--color-bg-tertiary) 0%, rgba(37, 99, 235, 0.1) 100%);
+  }
+  
+  .statusCard.success {
+    background: linear-gradient(135deg, var(--color-bg-tertiary) 0%, rgba(16, 185, 129, 0.1) 100%);
+  }
+  
+  .statusCard.danger {
+    background: linear-gradient(135deg, var(--color-bg-tertiary) 0%, rgba(239, 68, 68, 0.1) 100%);
+  }
+}

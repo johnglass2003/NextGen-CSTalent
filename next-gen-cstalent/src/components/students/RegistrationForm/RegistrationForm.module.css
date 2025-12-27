@@ -119,3 +119,31 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.errorMessage {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--color-error);
+  border-radius: var(--radius-md);
+  color: var(--color-error);
+  font-size: var(--font-size-sm);
+}
+
+.errorIcon {
+  flex-shrink: 0;
+}
+
+.fieldError {
+  font-size: var(--font-size-sm);
+  color: var(--color-error);
+  margin-top: var(--spacing-xs);
+}
+
+.passwordStrength {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  margin-top: var(--spacing-xs);
+}

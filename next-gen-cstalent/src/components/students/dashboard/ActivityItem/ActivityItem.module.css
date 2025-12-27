@@ -1,0 +1,100 @@
+/**
+ * ActivityItem Styles
+ */
+
+.activityItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition-fast);
+}
+
+.activityItem:nth-child(odd) {
+  background: var(--color-bg-tertiary);
+}
+
+.activityItem:nth-child(even) {
+  background: var(--color-bg-secondary);
+}
+
+.activityItem:hover {
+  background: var(--color-bg-tertiary);
+}
+
+.icon {
+  font-size: var(--font-size-lg);
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.message {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-xs) 0;
+  line-height: 1.4;
+}
+
+.date {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.status {
+  font-size: var(--font-size-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-full);
+  font-weight: 500;
+  white-space: nowrap;
+  text-transform: capitalize;
+}
+
+/* Status variants */
+.status.sent,
+.status.pending {
+  background: var(--color-warning);
+  color: white;
+}
+
+.status.interested,
+.status.viewed {
+  background: var(--color-primary-blue);
+  color: white;
+}
+
+.status.interview-scheduled {
+  background: var(--color-primary-orange);
+  color: white;
+}
+
+.status.hired,
+.status.accepted {
+  background: var(--color-success);
+  color: white;
+}
+
+.status.rejected,
+.status.declined {
+  background: var(--color-error);
+  color: white;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .activityItem:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .activityItem:nth-child(even) {
+    background: transparent;
+  }
+  
+  .activityItem:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+}
