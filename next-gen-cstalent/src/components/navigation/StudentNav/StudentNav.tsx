@@ -11,12 +11,12 @@ import { useAuth } from '@/contexts/AuthContext';
 import styles from './StudentNav.module.css';
 
 const NAV_ITEMS = [
-  { href: '/students/dashboard', label: 'Dashboard', icon: '🏠' },
-  { href: '/students/profile', label: 'Profile', icon: '👤' },
-  { href: '/students/companies', label: 'Companies', icon: '🏢' },
-  { href: '/students/applications', label: 'Applications', icon: '📋' },
-  { href: '/students/resources', label: 'Resources', icon: '📚' },
-  { href: '/students/messages', label: 'Messages', icon: '💬' },
+  { href: '/students/dashboard', label: 'Dashboard' },
+  { href: '/students/profile', label: 'Profile' },
+  { href: '/students/companies', label: 'Companies' },
+  { href: '/students/applications', label: 'Applications' },
+  { href: '/students/resources', label: 'Resources' },
+  { href: '/students/messages', label: 'Messages' },
 ];
 
 export default function StudentNav() {
@@ -41,7 +41,6 @@ export default function StudentNav() {
               href={item.href}
               className={`${styles.navLink} ${pathname === item.href ? styles.active : ''}`}
             >
-              <span className={styles.icon}>{item.icon}</span>
               <span className={styles.label}>{item.label}</span>
             </Link>
           </li>
@@ -51,7 +50,6 @@ export default function StudentNav() {
       <div className={styles.actions}>
         <ThemeToggle />
         <button onClick={handleSignOut} className={styles.logoutButton}>
-          <span className={styles.icon}>🚪</span>
           <span className={styles.label}>Logout</span>
         </button>
       </div>
@@ -70,7 +68,7 @@ function ThemeToggle() {
 
   return (
     <button onClick={toggleTheme} className={styles.themeToggle} aria-label="Toggle theme">
-      <span className={styles.themeIcon}>🌙</span>
+      <span className={styles.themeIcon}>Theme</span>
     </button>
   );
 }

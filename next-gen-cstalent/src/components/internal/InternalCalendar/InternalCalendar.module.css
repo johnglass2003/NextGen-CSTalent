@@ -1,0 +1,596 @@
+/**
+ * InternalCalendar Styles
+ * Styling for the calendar component and modals
+ */
+
+.calendarContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.legend {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.legendColor {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.addButton {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--accent-primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.addButton:hover {
+  background-color: var(--accent-hover);
+}
+
+/* Custom Toolbar */
+.customToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+}
+
+.toolbarLabel {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.navButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.navButton:hover {
+  background-color: var(--bg-tertiary);
+  border-color: var(--accent-primary);
+}
+
+.navButton svg {
+  flex-shrink: 0;
+}
+
+/* Loading State */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  gap: 1rem;
+  color: var(--text-secondary);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Modal Overlay */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+/* Modal */
+.modal {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.createModal {
+  max-width: 600px;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  background: #ffffff;
+  z-index: 1;
+  border-radius: 12px 12px 0 0;
+}
+
+.modalTitle {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 0.25rem;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.closeButton:hover {
+  color: #111827;
+}
+
+/* Modal Content */
+.modalContent {
+  padding: 1.5rem;
+  background: #ffffff;
+}
+
+.detailRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.detailRow:last-child {
+  margin-bottom: 0;
+}
+
+.detailLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b7280;
+}
+
+.eventTypeBadge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: white;
+  width: fit-content;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  width: fit-content;
+}
+
+.statusBadge.scheduled {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.statusBadge.completed {
+  background-color: #22c55e;
+  color: white;
+}
+
+.statusBadge.cancelled {
+  background-color: #ef4444;
+  color: white;
+}
+
+.description,
+.notes {
+  margin: 0;
+  color: #111827;
+  line-height: 1.5;
+}
+
+.meetingLink {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.meetingLink:hover {
+  text-decoration: underline;
+}
+
+/* Modal Actions */
+.modalActions {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  flex-wrap: wrap;
+  background: #ffffff;
+  border-radius: 0 0 12px 12px;
+}
+
+.actionButton {
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.completeButton {
+  background-color: #22c55e;
+  color: white;
+}
+
+.completeButton:hover {
+  background-color: #16a34a;
+}
+
+.cancelButton {
+  background-color: #ef4444;
+  color: white;
+}
+
+.cancelButton:hover {
+  background-color: #dc2626;
+}
+
+.closeModalButton {
+  padding: 0.75rem 1.25rem;
+  background-color: #f3f4f6;
+  color: #111827;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-left: auto;
+  transition: all 0.2s ease;
+}
+
+.closeModalButton:hover {
+  background-color: #e5e7eb;
+}
+
+/* Form Styles */
+.form {
+  padding: 1.5rem;
+  background: #ffffff;
+}
+
+.formGroup {
+  margin-bottom: 1.25rem;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.timePickerRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.timeSelect {
+  flex: 1;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #111827;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.timeSelect:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.timeSeparator {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.dateTimePicker {
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #111827;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.select {
+  cursor: pointer;
+}
+
+.errorMessage {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.formActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.submitButton {
+  flex: 1;
+  padding: 0.875rem 1.5rem;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #1d4ed8;
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancelFormButton {
+  flex: 1;
+  padding: 0.875rem 1.5rem;
+  background-color: #f3f4f6;
+  color: #111827;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.cancelFormButton:hover:not(:disabled) {
+  background-color: #e5e7eb;
+}
+
+.cancelFormButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* React Big Calendar Overrides */
+:global(.rbc-calendar) {
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+:global(.rbc-header) {
+  padding: 0.75rem 0.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+:global(.rbc-month-view) {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+:global(.rbc-day-bg) {
+  background: var(--bg-primary);
+}
+
+:global(.rbc-off-range-bg) {
+  background: var(--bg-tertiary);
+}
+
+:global(.rbc-today) {
+  background-color: rgba(37, 99, 235, 0.1) !important;
+}
+
+:global(.rbc-date-cell) {
+  padding: 0.25rem 0.5rem;
+  text-align: right;
+}
+
+:global(.rbc-date-cell > a) {
+  color: var(--text-primary);
+}
+
+:global(.rbc-off-range) {
+  color: var(--text-secondary);
+}
+
+:global(.rbc-event) {
+  padding: 2px 5px;
+  font-size: 0.8rem;
+}
+
+:global(.rbc-toolbar) {
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+:global(.rbc-toolbar button) {
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+}
+
+:global(.rbc-toolbar button:hover) {
+  background: var(--bg-tertiary);
+}
+
+:global(.rbc-toolbar button.rbc-active) {
+  background: var(--accent-primary);
+  color: white;
+  border-color: var(--accent-primary);
+}
+
+:global(.rbc-toolbar-label) {
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+}
+
+:global(.rbc-month-row) {
+  border-color: var(--border-color);
+}
+
+:global(.rbc-day-slot .rbc-time-slot) {
+  border-color: var(--border-color);
+}
+
+:global(.rbc-time-view) {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+:global(.rbc-time-header-content) {
+  border-color: var(--border-color);
+}
+
+:global(.rbc-time-content) {
+  border-color: var(--border-color);
+}
+
+:global(.rbc-timeslot-group) {
+  border-color: var(--border-color);
+}
+
+:global(.rbc-time-gutter .rbc-timeslot-group) {
+  border-color: var(--border-color);
+}
+
+:global(.rbc-current-time-indicator) {
+  background-color: var(--accent-primary);
+}
+
+:global(.rbc-show-more) {
+  color: var(--accent-primary);
+  font-weight: 500;
+}

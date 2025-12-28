@@ -182,7 +182,7 @@ export default function CompanyRegisterPage() {
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.header}>
-          <h1 className={styles.title}>Partner With TalentBridge</h1>
+          <h1 className={styles.title}>Partner With NextGen CS Talent</h1>
           <p className={styles.subtitle}>
             Access pre-vetted engineering talent from top universities
           </p>

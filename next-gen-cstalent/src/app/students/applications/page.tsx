@@ -1,6 +1,6 @@
 /**
  * Student Applications Page
- * Track application status with companies for TalentBridge
+ * Track application status with companies for NextGen CS Talent
  */
 
 'use client';

@@ -573,7 +573,7 @@ function RequirementsContent() {
               <div className={styles.formGroup}>
                 <label className={styles.label}>
                   Internal Notes
-                  <span className={styles.privateLabel}>🔒 Private - Only visible to TalentBridge team</span>
+                  <span className={styles.privateLabel}>🔒 Private - Only visible to NextGen CS Talent team</span>
                 </label>
                 <textarea
                   value={formData.internal_notes}

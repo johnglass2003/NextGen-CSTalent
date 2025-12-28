@@ -11,14 +11,14 @@ import { useAuth } from '@/contexts/AuthContext';
 import styles from './InternalNav.module.css';
 
 const NAV_ITEMS = [
-  { href: '/internal/dashboard', label: 'Dashboard', icon: '🏠' },
-  { href: '/internal/students', label: 'Students', icon: '🎓' },
-  { href: '/internal/companies', label: 'Companies', icon: '🏢' },
-  { href: '/internal/matching', label: 'Matching', icon: '🔗' },
-  { href: '/internal/assessments', label: 'Assessments', icon: '📝' },
-  { href: '/internal/calendar', label: 'Calendar', icon: '📅' },
-  { href: '/internal/messages', label: 'Messages', icon: '💬' },
-  { href: '/internal/analytics', label: 'Analytics', icon: '📊' },
+  { href: '/internal/dashboard', label: 'Dashboard' },
+  { href: '/internal/students', label: 'Students' },
+  { href: '/internal/companies', label: 'Companies' },
+  { href: '/internal/matching', label: 'Matching' },
+  { href: '/internal/assessments', label: 'Assessments' },
+  { href: '/internal/calendar', label: 'Calendar' },
+  { href: '/internal/messages', label: 'Messages' },
+  { href: '/internal/analytics', label: 'Analytics' },
 ];
 
 export default function InternalNav() {
@@ -43,7 +43,6 @@ export default function InternalNav() {
               href={item.href}
               className={`${styles.navLink} ${pathname === item.href ? styles.active : ''}`}
             >
-              <span className={styles.icon}>{item.icon}</span>
               <span className={styles.label}>{item.label}</span>
             </Link>
           </li>
@@ -53,7 +52,6 @@ export default function InternalNav() {
       <div className={styles.actions}>
         <ThemeToggle />
         <button onClick={handleSignOut} className={styles.logoutButton}>
-          <span className={styles.icon}>🚪</span>
           <span className={styles.label}>Logout</span>
         </button>
       </div>
@@ -72,7 +70,7 @@ function ThemeToggle() {
 
   return (
     <button onClick={toggleTheme} className={styles.themeToggle} aria-label="Toggle theme">
-      <span className={styles.themeIcon}>🌙</span>
+      <span className={styles.themeIcon}>Theme</span>
     </button>
   );
 }

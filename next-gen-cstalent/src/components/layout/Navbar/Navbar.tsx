@@ -17,7 +17,7 @@ export default function Navbar() {
     <header className={styles.header}>
       <nav className={styles.navbar}>
         <Link href="/" className={styles.logo}>
-          TalentBridge
+          NextGen CS Talent
         </Link>
         
         {loading ? (
