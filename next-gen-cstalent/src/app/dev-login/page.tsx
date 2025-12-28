@@ -54,7 +54,13 @@ export default function DevLoginPage() {
       console.log('🔧 DEV MODE: Logged in as', devUser);
 
       // Redirect to appropriate dashboard
-      router.push(`/${selectedRole}s/dashboard`);
+      // Use window.location for full page reload so AuthContext re-initializes with localStorage
+      const dashboardPaths: Record<UserRole, string> = {
+        student: '/students/dashboard',
+        company: '/companies/dashboard',
+        internal: '/internal/dashboard',
+      };
+      window.location.href = dashboardPaths[selectedRole];
     } catch (err) {
       console.error('Dev login error:', err);
       setError('Failed to login. Check console for details.');

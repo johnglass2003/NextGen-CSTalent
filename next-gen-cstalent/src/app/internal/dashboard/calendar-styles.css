@@ -236,3 +236,21 @@
 [data-theme='dark'] .duration-display {
   color: var(--text-secondary, #9ca3af);
 }
+
+/* React Big Calendar - Days outside current month */
+.rbc-off-range {
+  color: #9ca3af !important;
+}
+
+.rbc-off-range-bg {
+  background-color: #f9fafb !important;
+}
+
+/* Dark mode support for off-range days */
+[data-theme='dark'] .rbc-off-range {
+  color: #4b5563 !important;
+}
+
+[data-theme='dark'] .rbc-off-range-bg {
+  background-color: #1a1a2e !important;
+}

@@ -16,7 +16,6 @@ const NAV_ITEMS = [
   { href: '/internal/companies', label: 'Companies' },
   { href: '/internal/matching', label: 'Matching' },
   { href: '/internal/assessments', label: 'Assessments' },
-  { href: '/internal/calendar', label: 'Calendar' },
   { href: '/internal/messages', label: 'Messages' },
   { href: '/internal/analytics', label: 'Analytics' },
 ];
@@ -50,27 +49,10 @@ export default function InternalNav() {
       </ul>
       
       <div className={styles.actions}>
-        <ThemeToggle />
         <button onClick={handleSignOut} className={styles.logoutButton}>
           <span className={styles.label}>Logout</span>
         </button>
       </div>
     </nav>
-  );
-}
-
-function ThemeToggle() {
-  const toggleTheme = () => {
-    const html = document.documentElement;
-    const currentTheme = html.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-  };
-
-  return (
-    <button onClick={toggleTheme} className={styles.themeToggle} aria-label="Toggle theme">
-      <span className={styles.themeIcon}>Theme</span>
-    </button>
   );
 }

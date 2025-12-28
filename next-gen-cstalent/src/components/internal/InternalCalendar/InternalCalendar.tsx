@@ -114,6 +114,11 @@ export default function InternalCalendar() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedSlotDate, setSelectedSlotDate] = useState<Date | null>(null);
   const [loading, setLoading] = useState(true);
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  const handleNavigate = useCallback((newDate: Date) => {
+    setCurrentDate(newDate);
+  }, []);
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -302,6 +307,8 @@ export default function InternalCalendar() {
         eventPropGetter={eventStyleGetter}
         views={[Views.MONTH]}
         defaultView={Views.MONTH}
+        date={currentDate}
+        onNavigate={handleNavigate}
         toolbar={true}
         components={{
           toolbar: CustomToolbar,
