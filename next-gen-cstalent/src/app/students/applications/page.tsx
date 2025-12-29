@@ -400,7 +400,11 @@ function ApplicationCard({
   formatInterviewDate, 
   getInterviewCountdown 
 }: ApplicationCardProps) {
-  const statusConfig = STATUS_CONFIG[application.status];
+  const statusConfig = STATUS_CONFIG[application.status] || {
+    label: application.status || 'Unknown',
+    icon: '❓',
+    colorClass: 'statusSent'
+  };
   const hasInterview = application.status === 'interview_scheduled' && application.interview_date;
 
   return (
