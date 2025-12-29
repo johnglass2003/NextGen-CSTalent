@@ -587,14 +587,6 @@ function AssessmentForm() {
         <div className={styles.actions}>
           <button
             type="button"
-            onClick={() => handleSave()}
-            disabled={saving}
-            className={styles.saveButton}
-          >
-            {saving ? 'Saving...' : 'Save Assessment'}
-          </button>
-          <button
-            type="button"
             onClick={() => handleSave('vetted')}
             disabled={saving || form.recommendation === 'no_hire'}
             className={styles.saveVettedButton}

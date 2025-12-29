@@ -10,6 +10,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
+import { AddStudentModal } from '@/components/students/AddStudentModal';
 import styles from './page.module.css';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -73,6 +74,10 @@ interface Student {
   vetting_status: VettingStatus;
   overall_score: number | null;
   created_at: string;
+  latest_assessment?: {
+    score: number;
+    date: string;
+  } | null;
 }
 
 const ITEMS_PER_PAGE = 50;
@@ -109,6 +114,7 @@ function StudentManagement() {
   const [searching, setSearching] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [totalCount, setTotalCount] = useState(0);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   // Filter state from URL params
   const [searchInput, setSearchInput] = useState(searchParams.get('search') || '');
@@ -202,7 +208,33 @@ function StudentManagement() {
         throw new Error(fetchError.message);
       }
 
-      setStudents(data || []);
+      // Fetch latest assessments for each student
+      const studentIds = (data || []).map(s => s.id);
+      let studentsWithAssessments = data || [];
+
+      if (studentIds.length > 0) {
+        const { data: assessments } = await supabase
+          .from('interview_assessments')
+          .select('student_id, total_score, interview_date')
+          .in('student_id', studentIds)
+          .order('interview_date', { ascending: false });
+
+        // Group by student_id and get the latest
+        const latestByStudent: Record<string, { score: number; date: string }> = {};
+        (assessments || []).forEach(a => {
+          if (!latestByStudent[a.student_id]) {
+            latestByStudent[a.student_id] = { score: parseFloat(a.total_score) || 0, date: a.interview_date };
+          }
+        });
+
+        // Merge with students
+        studentsWithAssessments = (data || []).map(student => ({
+          ...student,
+          latest_assessment: latestByStudent[student.id] || null,
+        }));
+      }
+
+      setStudents(studentsWithAssessments);
       setTotalCount(count || 0);
     } catch (err) {
       console.error('Error fetching students:', err);
@@ -243,12 +275,17 @@ function StudentManagement() {
     return sortDirection === 'asc' ? ' ↑' : ' ↓';
   };
 
-  // Format score with color
-  const getScoreColor = (score: number | null): string => {
-    if (score === null) return '';
+  // Format score with color (for assessment scores 0-100)
+  const getAssessmentScoreColor = (score: number | null): string => {
+    if (score === null) return styles.scoreNotAssessed;
     if (score >= 80) return styles.scoreHigh;
     if (score >= 60) return styles.scoreMedium;
     return styles.scoreLow;
+  };
+
+  // Format date to short format (e.g., "Dec 15")
+  const formatShortDate = (dateString: string): string => {
+    return new Date(dateString).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   };
 
   // Error state
@@ -278,7 +315,7 @@ function StudentManagement() {
               {totalCount} student{totalCount !== 1 ? 's' : ''} total
             </p>
           </div>
-          <button className={styles.addButton}>
+          <button className={styles.addButton} onClick={() => setShowAddModal(true)}>
             + Add Student
           </button>
         </div>
@@ -457,12 +494,17 @@ function StudentManagement() {
                       </span>
                     </td>
                     <td className={styles.td}>
-                      {student.overall_score !== null ? (
-                        <span className={`${styles.score} ${getScoreColor(student.overall_score)}`}>
-                          {student.overall_score}/100
-                        </span>
+                      {student.latest_assessment ? (
+                        <div className={styles.scoreWrapper}>
+                          <span className={`${styles.score} ${getAssessmentScoreColor(student.latest_assessment.score)}`}>
+                            {Math.round(student.latest_assessment.score)}/100
+                          </span>
+                          <span className={styles.scoreDate}>
+                            {formatShortDate(student.latest_assessment.date)}
+                          </span>
+                        </div>
                       ) : (
-                        '—'
+                        <span className={styles.scoreNotAssessed}>Not Assessed</span>
                       )}
                     </td>
                     <td className={styles.td}>
@@ -503,6 +545,13 @@ function StudentManagement() {
           )}
         </>
       )}
+
+      {/* Add Student Modal */}
+      <AddStudentModal
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onSuccess={fetchStudents}
+      />
     </div>
   );
 }

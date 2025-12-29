@@ -407,6 +407,24 @@
   color: #991b1b;
 }
 
+.scoreWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.scoreDate {
+  font-size: 0.75rem;
+  color: var(--color-text-light);
+}
+
+.scoreNotAssessed {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  font-style: italic;
+}
+
 /* View Button */
 .viewButton {
   padding: var(--spacing-xs) var(--spacing-sm);

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/auth-helpers-nextjs';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
+import { AssessmentHistory } from '@/components/students/AssessmentHistory';
 import styles from './student-detail.module.css';
 
 type Student = {
@@ -37,6 +38,7 @@ export default function StudentDetailPage() {
   const [student, setStudent] = useState<Student | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'overview' | 'assessments'>('overview');
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -108,6 +110,23 @@ export default function StudentDetailPage() {
           <h1>Student Profile</h1>
         </div>
 
+        {/* Tabs */}
+        <div className={styles.tabs}>
+          <button
+            className={`${styles.tab} ${activeTab === 'overview' ? styles.activeTab : ''}`}
+            onClick={() => setActiveTab('overview')}
+          >
+            Overview
+          </button>
+          <button
+            className={`${styles.tab} ${activeTab === 'assessments' ? styles.activeTab : ''}`}
+            onClick={() => setActiveTab('assessments')}
+          >
+            Assessments
+          </button>
+        </div>
+
+        {activeTab === 'overview' && (
         <div className={styles.profileLayout}>
           {/* Left Column: Main Info */}
           <div className={styles.mainColumn}>
@@ -298,6 +317,14 @@ export default function StudentDetailPage() {
             </div>
           </div>
         </div>
+        )}
+
+        {activeTab === 'assessments' && (
+          <AssessmentHistory 
+            studentId={studentId} 
+            studentName={`${student.first_name} ${student.last_name}`}
+          />
+        )}
       </div>
     </ProtectedRoute>
   );
