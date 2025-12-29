@@ -101,6 +101,7 @@
 /* Status Section */
 .statusSection {
   /* VettingStatusDisplay handles its own styling */
+  display: block;
 }
 
 /* Stats Section */

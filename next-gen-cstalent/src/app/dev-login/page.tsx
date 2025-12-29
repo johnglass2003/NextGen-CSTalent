@@ -1,142 +1,134 @@
-/**
- * Dev Login Page
- * Temporary bypass for development/testing - bypasses Supabase Auth
- * Uses actual user IDs from the database
- * 
- * ⚠️ REMOVE THIS FILE BEFORE PRODUCTION DEPLOYMENT
- */
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createBrowserClient } from "@supabase/auth-helpers-nextjs";
 
-'use client';
-
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { createClient } from '@supabase/supabase-js';
-import { UserRole } from '@/contexts/AuthContext';
-import styles from './page.module.css';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-
-export default function DevLoginPage() {
-  const router = useRouter();
-  const [supabase] = useState(() => createClient(supabaseUrl, supabaseAnonKey));
-  const [selectedRole, setSelectedRole] = useState<UserRole>('student');
+export default function DevLogin() {
+  const [role, setRole] = useState<'student' | 'company' | 'internal'>("student");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState("");
+  const router = useRouter();
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+  const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey);
 
-  const handleLogin = async () => {
+  async function handleDevLogin() {
     setLoading(true);
-    setError(null);
-
+    setError("");
     try {
-      // Fetch an actual user from the database with the selected role
-      const { data, error: fetchError } = await supabase
-        .from('users')
-        .select('id, email, role')
-        .eq('role', selectedRole)
+      console.log("🔐 Dev login for role:", role);
+      const { data: user, error: userError } = await supabase
+        .from("users")
+        .select("id, email, role")
+        .eq("role", role)
         .limit(1)
         .single();
-
-      if (fetchError || !data) {
-        setError(`No ${selectedRole} user found in database. Create test data first.`);
+      if (userError || !user) {
+        console.error("❌ No user found for role:", role, userError);
+        setError(`No ${role} user found in database. Please run the test data SQL first.`);
         setLoading(false);
         return;
       }
-
-      // Store the actual user data in localStorage
-      const devUser = {
-        id: data.id,
-        email: data.email,
-        role: data.role as UserRole,
+      console.log("✅ Found user:", user);
+      localStorage.setItem("dev_user", JSON.stringify({
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      }));
+      console.log("✅ Dev user stored in localStorage");
+      const dashboardMap = {
+        student: "/students/dashboard",
+        company: "/companies/dashboard",
+        internal: "/internal/dashboard",
       };
-
-      localStorage.setItem('dev_user', JSON.stringify(devUser));
-      console.log('🔧 DEV MODE: Logged in as', devUser);
-
-      // Redirect to appropriate dashboard
-      // Use window.location for full page reload so AuthContext re-initializes with localStorage
-      const dashboardPaths: Record<UserRole, string> = {
-        student: '/students/dashboard',
-        company: '/companies/dashboard',
-        internal: '/internal/dashboard',
-      };
-      window.location.href = dashboardPaths[selectedRole];
-    } catch (err) {
-      console.error('Dev login error:', err);
-      setError('Failed to login. Check console for details.');
-    } finally {
+      router.push(dashboardMap[role]);
+    } catch (err: any) {
+      console.error("💥 Dev login error:", err);
+      setError(err.message);
       setLoading(false);
     }
-  };
-
-  const handleClearDevAuth = () => {
-    localStorage.removeItem('dev_user');
-    setError(null);
-    alert('Dev auth cleared! Refresh the page.');
-  };
+  }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.warningBanner}>
-        ⚠️ DEVELOPMENT ONLY - Remove before production
-      </div>
-
-      <div className={styles.card}>
-        <h1 className={styles.title}>Dev Login</h1>
-        <p className={styles.subtitle}>
-          Bypass Supabase Auth for testing. Uses real user IDs from database.
-        </p>
-
-        {error && (
-          <div className={styles.error}>
-            {error}
-          </div>
-        )}
-
-        <div className={styles.formGroup}>
-          <label className={styles.label}>Select Role</label>
-          <div className={styles.roleButtons}>
-            {(['student', 'company', 'internal'] as UserRole[]).map((role) => (
-              <button
-                key={role}
-                type="button"
-                onClick={() => setSelectedRole(role)}
-                className={`${styles.roleButton} ${selectedRole === role ? styles.roleButtonActive : ''}`}
-              >
-                {role.charAt(0).toUpperCase() + role.slice(1)}
-              </button>
-            ))}
-          </div>
+    <div style={{
+      maxWidth: "400px",
+      margin: "100px auto",
+      padding: "2rem",
+      border: "1px solid #ccc",
+      borderRadius: "8px",
+      backgroundColor: "#fff",
+    }}>
+      <h1 style={{ marginBottom: "1rem" }}>DEV LOGIN</h1>
+      <p style={{ color: "#666", marginBottom: "2rem", fontSize: "0.875rem" }}>
+        ⚠️ Development mode only - Remove before production!
+      </p>
+      {error && (
+        <div
+          style={{
+            padding: "1rem",
+            marginBottom: "1rem",
+            background: "#f8d7da",
+            border: "1px solid #dc3545",
+            borderRadius: "4px",
+            color: "#721c24",
+            fontSize: "0.875rem",
+          }}
+        >
+          {error}
         </div>
-
-        <button
-          onClick={handleLogin}
+      )}
+      <div style={{ marginBottom: "1rem" }}>
+        <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "bold" }}>
+          Select Role:
+        </label>
+        <select
+          value={role}
+          onChange={(e) => setRole(e.target.value as any)}
           disabled={loading}
-          className={styles.loginButton}
+          style={{
+            width: "100%",
+            padding: "0.75rem",
+            fontSize: "1rem",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+          }}
         >
-          {loading ? 'Logging in...' : `Login as ${selectedRole}`}
-        </button>
-
-        <div className={styles.divider}>
-          <span>or</span>
-        </div>
-
-        <button
-          onClick={handleClearDevAuth}
-          className={styles.clearButton}
-        >
-          Clear Dev Auth
-        </button>
-
-        <div className={styles.helpText}>
-          <p><strong>How it works:</strong></p>
-          <ol>
-            <li>Select a role (student, company, or internal)</li>
-            <li>Click login to fetch a real user with that role from the database</li>
-            <li>The user&apos;s actual ID will be stored in localStorage</li>
-            <li>AuthContext will use this instead of Supabase Auth</li>
-          </ol>
-        </div>
+          <option value="student">Student (student@test.com)</option>
+          <option value="company">Company (company@test.com)</option>
+          <option value="internal">Internal (internal@test.com)</option>
+        </select>
+      </div>
+      <button
+        onClick={handleDevLogin}
+        disabled={loading}
+        style={{
+          width: "100%",
+          padding: "0.75rem",
+          fontSize: "1rem",
+          backgroundColor: loading ? "#ccc" : "#0066cc",
+          color: "white",
+          border: "none",
+          borderRadius: "4px",
+          cursor: loading ? "not-allowed" : "pointer",
+        }}
+      >
+        {loading ? "Logging in..." : `Login as ${role}`}
+      </button>
+      <div
+        style={{
+          marginTop: "2rem",
+          padding: "1rem",
+          background: "#f8f9fa",
+          borderRadius: "4px",
+          fontSize: "0.875rem",
+        }}
+      >
+        <strong>How this works:</strong>
+        <ul style={{ marginTop: "0.5rem", paddingLeft: "1.5rem" }}>
+          <li>Fetches real user from database</li>
+          <li>Stores actual user ID in localStorage</li>
+          <li>All queries work correctly</li>
+        </ul>
       </div>
     </div>
   );

@@ -1,0 +1,449 @@
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.header h1 {
+  margin: 1rem 0 0 0;
+  font-size: 1.75rem;
+  color: #212529;
+}
+
+.backButton {
+  padding: 0.5rem 1rem;
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: #495057;
+  transition: all 0.15s ease;
+  margin-bottom: 1rem;
+}
+
+.backButton:hover {
+  background: #f8f9fa;
+  border-color: #adb5bd;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 3rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.error h2 {
+  color: #dc3545;
+  margin-bottom: 1rem;
+}
+
+/* Layout */
+.profileLayout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 2rem;
+}
+
+.mainColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Cards */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.125rem;
+  color: #212529;
+  font-weight: 600;
+  border-bottom: 2px solid #f8f9fa;
+  padding-bottom: 0.75rem;
+}
+
+/* Company Header */
+.companyHeader {
+  display: flex;
+  gap: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 2rem;
+}
+
+.logo {
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e9ecef;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.logoPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.companyInfo {
+  flex: 1;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.companyInfo h2 {
+  margin: 0;
+  font-size: 2rem;
+  color: #212529;
+}
+
+.verifiedBadge {
+  padding: 0.25rem 0.75rem;
+  background: #d4edda;
+  color: #155724;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid #c3e6cb;
+  white-space: nowrap;
+}
+
+.industry,
+.location {
+  color: #495057;
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+.websiteLink {
+  display: inline-block;
+  margin-top: 0.75rem;
+  color: #0066cc;
+  text-decoration: none;
+  font-size: 0.9375rem;
+  transition: color 0.15s ease;
+}
+
+.websiteLink:hover {
+  color: #0052a3;
+  text-decoration: underline;
+}
+
+.section {
+  margin-top: 1.5rem;
+}
+
+.description {
+  color: #495057;
+  line-height: 1.7;
+  margin: 1rem 0 0 0;
+  font-size: 1rem;
+}
+
+/* Company Details Grid */
+.detailsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.detailItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.detailIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.detailLabel {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #6c757d;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
+}
+
+.detailValue {
+  color: #212529;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Contact Information */
+.contactList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.contactItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.contactLabel {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #6c757d;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.contactValue {
+  color: #212529;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.contactValueLink {
+  color: #0066cc;
+  text-decoration: none;
+  font-size: 0.9375rem;
+  word-break: break-all;
+}
+
+.contactValueLink:hover {
+  text-decoration: underline;
+}
+
+/* Links */
+.linksList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.link {
+  display: block;
+  padding: 0.75rem 1rem;
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  color: #495057;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: all 0.15s ease;
+}
+
+.link:hover {
+  background: #e9ecef;
+  border-color: #dee2e6;
+  color: #212529;
+}
+
+/* Metadata */
+.metadataList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.metadataItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f8f9fa;
+}
+
+.metadataItem:last-child {
+  border-bottom: none;
+}
+
+.metadataLabel {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+.metadataValue {
+  font-size: 0.875rem;
+  color: #495057;
+  font-weight: 500;
+}
+
+.verifiedStatus {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.unverifiedStatus {
+  color: #ffc107;
+  font-weight: 600;
+}
+
+/* Action Buttons */
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.actionButton {
+  padding: 0.75rem 1rem;
+  background: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: background 0.15s ease;
+}
+
+.actionButton:hover {
+  background: #0052a3;
+}
+
+.actionButtonSecondary {
+  padding: 0.75rem 1rem;
+  background: white;
+  color: #495057;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.actionButtonSecondary:hover {
+  background: #f8f9fa;
+  border-color: #adb5bd;
+}
+
+.actionButtonPrimary {
+  padding: 0.75rem 1rem;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: background 0.15s ease;
+}
+
+.actionButtonPrimary:hover {
+  background: #218838;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .profileLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    order: -1;
+  }
+
+  .detailsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+
+  .companyHeader {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .logo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .companyInfo h2 {
+    font-size: 1.5rem;
+  }
+
+  .titleRow {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .container {
+    background: white;
+    padding: 0;
+  }
+
+  .backButton,
+  .actionButtons {
+    display: none;
+  }
+
+  .card {
+    box-shadow: none;
+    border: 1px solid #dee2e6;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .profileLayout {
+    grid-template-columns: 1fr;
+  }
+}
