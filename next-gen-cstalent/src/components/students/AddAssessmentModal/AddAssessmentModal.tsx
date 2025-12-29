@@ -71,7 +71,7 @@ const SKILLS = [
 ];
 
 const initialFormData: FormData = {
-  assessmentType: 'Technical Interview',
+  assessmentType: 'technical',
   date: new Date().toISOString().split('T')[0],
   interviewerName: '',
   duration: '',
@@ -250,7 +250,7 @@ export default function AddAssessmentModal({
                   onChange={e => handleChange('assessmentType', e.target.value as AssessmentType)}
                 >
                   {ASSESSMENT_TYPES.map(type => (
-                    <option key={type} value={type}>{type}</option>
+                    <option key={type.value} value={type.value}>{type.label}</option>
                   ))}
                 </select>
               </div>
@@ -329,7 +329,6 @@ export default function AddAssessmentModal({
                         onChange={e => handleChange('recommendation', e.target.value as Recommendation)}
                       />
                       <span>{rec.label}</span>
-                      <small>({rec.range})</small>
                     </label>
                   ))}
                 </div>

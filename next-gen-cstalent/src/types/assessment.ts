@@ -12,6 +12,33 @@ export type Recommendation =
   | 'lean_no_hire'
   | 'no_hire';
 
+// Assessment type values
+export type AssessmentType = 
+  | 'technical'
+  | 'behavioral'
+  | 'system_design'
+  | 'coding'
+  | 'final';
+
+// Assessment types for dropdown
+export const ASSESSMENT_TYPES: { value: AssessmentType; label: string }[] = [
+  { value: 'technical', label: 'Technical Interview' },
+  { value: 'behavioral', label: 'Behavioral Interview' },
+  { value: 'system_design', label: 'System Design' },
+  { value: 'coding', label: 'Coding Challenge' },
+  { value: 'final', label: 'Final Round' },
+];
+
+// Follow-up action options
+export const FOLLOW_UP_OPTIONS = [
+  'Schedule follow-up interview',
+  'Send additional resources',
+  'Review with team',
+  'Extend offer',
+  'Send rejection',
+  'Request references',
+];
+
 // Assessment interface matching actual DB schema
 export interface Assessment {
   id: string;
