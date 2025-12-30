@@ -1088,6 +1088,7 @@ function CandidatesManagement() {
                         }
                       }}
                     />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
                     {reason}
                   </label>
                 ))}

@@ -16,6 +16,8 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 // Types
+type CandidateStatus = 'sent' | 'company_interested' | 'interview_scheduled' | 'hired' | 'rejected';
+
 interface Company {
   id: string;
   company_name: string;
@@ -23,6 +25,59 @@ interface Company {
   candidates_sent_this_month: number;
   max_candidates_per_month: number;
 }
+
+interface Student {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  major: string | null;
+  graduation_year: number | null;
+  gpa: number | null;
+  location: string | null;
+  technical_skills: string[];
+  overall_score: number | null;
+  resume_url: string | null;
+  linkedin_profile: string | null;
+}
+
+interface Assessment {
+  problem_solving: number;
+  code_quality: number;
+  technical_knowledge: number;
+  debugging_ability: number;
+  technical_total: number;
+  communication_skills: number;
+  problem_approach: number;
+  cultural_fit: number;
+  behavioral_total: number;
+  bonus_points: number;
+  total_score: number;
+  strengths: string | null;
+  areas_for_improvement: string | null;
+  recommendation: string | null;
+}
+
+interface Candidate {
+  id: string;
+  status: CandidateStatus;
+  sent_date: string;
+  company_notes: string | null;
+  interview_scheduled_date: string | null;
+  position_title: string | null;
+  requirement_id: string | null;
+  student: Student;
+  assessment: Assessment | null;
+}
+
+// Status config with icons
+const STATUS_CONFIG: Record<CandidateStatus, { label: string; colorClass: string; icon: string }> = {
+  sent: { label: 'New', colorClass: 'statusNew', icon: '✨' },
+  company_interested: { label: 'Interested', colorClass: 'statusInterested', icon: '👍' },
+  interview_scheduled: { label: 'Interview Scheduled', colorClass: 'statusInterview', icon: '📅' },
+  hired: { label: 'Hired', colorClass: 'statusHired', icon: '🎉' },
+  rejected: { label: 'Not a Fit', colorClass: 'statusRejected', icon: '✗' },
+};
 
 interface DashboardStats {
   totalCandidates: number;
@@ -36,10 +91,12 @@ interface DashboardStats {
 interface RecentCandidate {
   id: string;
   studentName: string;
-  status: string;
+  status: CandidateStatus;
   sentDate: string;
   positionTitle: string | null;
   score: number | null;
+  // Full candidate data for modal
+  fullCandidate?: Candidate;
 }
 
 interface UpcomingInterview {
@@ -125,6 +182,19 @@ function CompanyDashboard() {
   const [upcomingInterviews, setUpcomingInterviews] = useState<UpcomingInterview[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
+  // Modal state
+  const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null);
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [showScheduleModal, setShowScheduleModal] = useState(false);
+  const [processingId, setProcessingId] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+
+  // Schedule interview state
+  const [interviewDate, setInterviewDate] = useState('');
+  const [interviewDuration, setInterviewDuration] = useState('60');
+  const [meetingLink, setMeetingLink] = useState('');
+  const [interviewType, setInterviewType] = useState('video');
 
   // Fetch dashboard data
   const fetchDashboardData = useCallback(async () => {
@@ -151,13 +221,22 @@ function CompanyDashboard() {
           id,
           status,
           sent_date,
+          company_notes,
           interview_scheduled_date,
           requirement_id,
           students (
             id,
             first_name,
             last_name,
-            overall_score
+            email,
+            major,
+            graduation_year,
+            gpa,
+            location,
+            technical_skills,
+            overall_score,
+            resume_url,
+            linkedin_profile
           )
         `)
         .eq('company_id', companyData.id)
@@ -197,15 +276,73 @@ function CompanyDashboard() {
       };
       setStats(calculatedStats);
 
-      // Get recent candidates (last 5)
+      // Get student IDs for fetching assessments
+      const studentIds = activeSubmissions.slice(0, 5).map((s: { students: Student | Student[] }) => {
+        const student = Array.isArray(s.students) ? s.students[0] : s.students;
+        return student?.id;
+      }).filter(Boolean);
+
+      let assessmentsMap: Record<string, Assessment> = {};
+
+      if (studentIds.length > 0) {
+        const { data: assessments } = await supabase
+          .from('interview_assessments')
+          .select(`
+            student_id,
+            problem_solving,
+            code_quality,
+            technical_knowledge,
+            debugging_ability,
+            technical_total,
+            communication_skills,
+            problem_approach,
+            cultural_fit,
+            behavioral_total,
+            bonus_points,
+            total_score,
+            strengths,
+            areas_for_improvement,
+            recommendation
+          `)
+          .in('student_id', studentIds)
+          .order('created_at', { ascending: false });
+
+        (assessments || []).forEach((a: Assessment & { student_id: string }) => {
+          if (!assessmentsMap[a.student_id]) {
+            assessmentsMap[a.student_id] = a;
+          }
+        });
+      }
+
+      // Get recent candidates (last 5) with full data for modal
       const recent: RecentCandidate[] = activeSubmissions.slice(0, 5).map((sub: {
         id: string;
-        status: string;
+        status: CandidateStatus;
         sent_date: string;
+        company_notes: string | null;
+        interview_scheduled_date: string | null;
         requirement_id: string | null;
-        students: { first_name: string; last_name: string; overall_score: number | null } | { first_name: string; last_name: string; overall_score: number | null }[];
+        students: Student | Student[];
       }) => {
         const student = Array.isArray(sub.students) ? sub.students[0] : sub.students;
+        const fullStudent: Student = student ? {
+          ...student,
+          technical_skills: student.technical_skills || [],
+        } : {
+          id: '',
+          first_name: 'Unknown',
+          last_name: '',
+          email: '',
+          major: null,
+          graduation_year: null,
+          gpa: null,
+          location: null,
+          technical_skills: [],
+          overall_score: null,
+          resume_url: null,
+          linkedin_profile: null,
+        };
+        
         return {
           id: sub.id,
           studentName: student ? `${student.first_name} ${student.last_name}` : 'Unknown',
@@ -213,6 +350,17 @@ function CompanyDashboard() {
           sentDate: sub.sent_date,
           positionTitle: sub.requirement_id ? requirementsMap[sub.requirement_id] || null : null,
           score: student?.overall_score ?? null,
+          fullCandidate: {
+            id: sub.id,
+            status: sub.status,
+            sent_date: sub.sent_date,
+            company_notes: sub.company_notes,
+            interview_scheduled_date: sub.interview_scheduled_date,
+            requirement_id: sub.requirement_id,
+            position_title: sub.requirement_id ? requirementsMap[sub.requirement_id] || null : null,
+            student: fullStudent,
+            assessment: fullStudent.id ? assessmentsMap[fullStudent.id] || null : null,
+          },
         };
       });
       setRecentCandidates(recent);
@@ -289,6 +437,182 @@ function CompanyDashboard() {
   const usagePercentage = company
     ? (company.candidates_sent_this_month / company.max_candidates_per_month) * 100
     : 0;
+
+  // Get score color class
+  const getScoreClass = (score: number | null): string => {
+    if (score === null) return '';
+    if (score >= 80) return styles.scoreHigh;
+    if (score >= 60) return styles.scoreMedium;
+    return styles.scoreLow;
+  };
+
+  // Format date for modal
+  const formatDateFull = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  };
+
+  // Open profile modal
+  const openProfileModal = (candidate: Candidate) => {
+    setSelectedCandidate(candidate);
+    setShowProfileModal(true);
+  };
+
+  // Update candidate status
+  const updateStatus = async (candidateId: string, newStatus: CandidateStatus, additionalData?: Record<string, unknown>) => {
+    setProcessingId(candidateId);
+    try {
+      const updateData: Record<string, unknown> = { status: newStatus, ...additionalData };
+
+      const { error: updateError } = await supabase
+        .from('candidate_submissions')
+        .update(updateData)
+        .eq('id', candidateId);
+
+      if (updateError) throw updateError;
+
+      // Update local state
+      setRecentCandidates(prev => prev.map(c =>
+        c.id === candidateId && c.fullCandidate
+          ? { ...c, status: newStatus, fullCandidate: { ...c.fullCandidate, status: newStatus, ...additionalData } }
+          : c
+      ));
+
+      if (selectedCandidate && selectedCandidate.id === candidateId) {
+        setSelectedCandidate({ ...selectedCandidate, status: newStatus, ...additionalData });
+      }
+
+      setSuccess(`Candidate marked as ${STATUS_CONFIG[newStatus].label}`);
+      setTimeout(() => setSuccess(null), 3000);
+
+      // Refresh dashboard data to update stats
+      fetchDashboardData();
+    } catch (err) {
+      console.error('Error updating status:', err);
+      setError(err instanceof Error ? err.message : 'Failed to update status');
+      setTimeout(() => setError(null), 5000);
+    } finally {
+      setProcessingId(null);
+    }
+  };
+
+  // Handle mark interested
+  const handleMarkInterested = () => {
+    if (selectedCandidate) {
+      updateStatus(selectedCandidate.id, 'company_interested');
+    }
+  };
+
+  // Handle hire
+  const handleHire = () => {
+    if (selectedCandidate && window.confirm('Mark this candidate as hired?')) {
+      updateStatus(selectedCandidate.id, 'hired');
+    }
+  };
+
+  // Open schedule modal
+  const openScheduleModal = () => {
+    if (!selectedCandidate) return;
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(10, 0, 0, 0);
+    setInterviewDate(tomorrow.toISOString().slice(0, 16));
+    setInterviewDuration('60');
+    setMeetingLink('');
+    setInterviewType('video');
+    setShowProfileModal(false);
+    setShowScheduleModal(true);
+  };
+
+  // Handle schedule interview
+  const handleScheduleInterview = async () => {
+    if (!selectedCandidate || !meetingLink || !interviewDate) return;
+
+    if (!meetingLink.startsWith('http')) {
+      setError('Please enter a valid meeting URL');
+      return;
+    }
+
+    const selectedDate = new Date(interviewDate);
+    if (selectedDate <= new Date()) {
+      setError('Please select a future date and time');
+      return;
+    }
+
+    setProcessingId(selectedCandidate.id);
+    setError(null);
+
+    try {
+      const startTime = new Date(interviewDate).toISOString();
+      const endTime = new Date(selectedDate.getTime() + parseInt(interviewDuration) * 60 * 1000).toISOString();
+
+      const { error: updateError } = await supabase
+        .from('candidate_submissions')
+        .update({
+          status: 'interview_scheduled',
+          interview_scheduled_date: startTime,
+        })
+        .eq('id', selectedCandidate.id);
+
+      if (updateError) throw updateError;
+
+      // Create calendar event
+      await supabase.from('calendar_events').insert({
+        event_type: 'company_interview',
+        title: `${interviewType === 'video' ? 'Video' : interviewType === 'phone' ? 'Phone' : 'Technical'} Interview: ${selectedCandidate.student.first_name} ${selectedCandidate.student.last_name}`,
+        student_id: selectedCandidate.student.id,
+        company_id: company?.id,
+        start_time: startTime,
+        end_time: endTime,
+        meeting_link: meetingLink,
+        status: 'scheduled',
+      });
+
+      // Update local state
+      setRecentCandidates(prev => prev.map(c =>
+        c.id === selectedCandidate.id && c.fullCandidate
+          ? { 
+              ...c, 
+              status: 'interview_scheduled' as CandidateStatus, 
+              fullCandidate: { ...c.fullCandidate, status: 'interview_scheduled' as CandidateStatus, interview_scheduled_date: startTime } 
+            }
+          : c
+      ));
+
+      setShowScheduleModal(false);
+      setSelectedCandidate(null);
+      setSuccess('Interview scheduled successfully!');
+      setTimeout(() => setSuccess(null), 3000);
+
+      // Refresh dashboard data to update stats
+      fetchDashboardData();
+    } catch (err) {
+      console.error('Error scheduling:', err);
+      setError(err instanceof Error ? err.message : 'Failed to schedule interview');
+      setTimeout(() => setError(null), 5000);
+    } finally {
+      setProcessingId(null);
+    }
+  };
+
+  // Download resume
+  const handleDownloadResume = async (resumeUrl: string) => {
+    if (!resumeUrl) return;
+    try {
+      const { data, error: downloadError } = await supabase.storage
+        .from('resumes')
+        .createSignedUrl(resumeUrl, 60);
+      if (downloadError) throw downloadError;
+      window.open(data.signedUrl, '_blank');
+    } catch (err) {
+      console.error('Error downloading resume:', err);
+      setError('Failed to download resume');
+      setTimeout(() => setError(null), 5000);
+    }
+  };
 
   // Error state
   if (error && !company) {
@@ -424,14 +748,12 @@ function CompanyDashboard() {
                   <button
                     key={action.id}
                     onClick={() => router.push(action.href)}
-                    className={`${styles.actionCard} ${styles[`action${action.color.charAt(0).toUpperCase() + action.color.slice(1)}`]}`}
+                    className={`${styles.actionCard} ${styles.actionPrimary}`}
                   >
-                    <span className={styles.actionIcon}>{action.icon}</span>
-                    <div className={styles.actionContent}>
-                      <span className={styles.actionLabel}>{action.label}</span>
-                      <span className={styles.actionDescription}>{action.description}</span>
-                    </div>
-                    <span className={styles.actionArrow}>→</span>
+                    <><span className={styles.actionIcon}>{action.icon}</span><div className={styles.actionContent}>
+                        <span className={styles.actionLabel}>{action.label}</span>
+                        <span className={styles.actionDescription}>{action.description}</span>
+                      </div><span className={styles.actionArrow}>→</span></>
                   </button>
                 ))}
               </div>
@@ -462,7 +784,7 @@ function CompanyDashboard() {
                     <div 
                       key={candidate.id} 
                       className={styles.recentCard}
-                      onClick={() => router.push('/companies/candidates')}
+                      onClick={() => candidate.fullCandidate && openProfileModal(candidate.fullCandidate)}
                     >
                       <div className={styles.recentMain}>
                         <span className={styles.recentName}>{candidate.studentName}</span>
@@ -474,7 +796,7 @@ function CompanyDashboard() {
                         {candidate.score !== null && (
                           <span className={styles.recentScore}>{candidate.score}/100</span>
                         )}
-                        <span className={`${styles.recentStatus} ${styles[`status${candidate.status.charAt(0).toUpperCase() + candidate.status.slice(1).replace('_', '')}`]}`}>
+                        <span className={`${styles.recentStatus} ${styles['status' + candidate.status.charAt(0).toUpperCase() + candidate.status.slice(1).replace('_', '')]}`}>
                           {getStatusLabel(candidate.status)}
                         </span>
                       </div>
@@ -542,6 +864,326 @@ function CompanyDashboard() {
           )}
         </>
       )}
+
+      {/* Profile Modal */}
+      {showProfileModal && selectedCandidate && (
+        <ProfileModal
+          candidate={selectedCandidate}
+          processingId={processingId}
+          onClose={() => { setShowProfileModal(false); setSelectedCandidate(null); }}
+          onMarkInterested={handleMarkInterested}
+          onScheduleInterview={openScheduleModal}
+          onReject={() => { 
+            setShowProfileModal(false); 
+            router.push('/companies/candidates'); 
+          }}
+          onHire={handleHire}
+          onDownloadResume={() => handleDownloadResume(selectedCandidate.student.resume_url || '')}
+          getScoreClass={getScoreClass}
+          formatDate={formatDateFull}
+        />
+      )}
+
+      {/* Schedule Interview Modal */}
+      {showScheduleModal && selectedCandidate && (
+        <div className={styles.modalOverlay} onClick={() => setShowScheduleModal(false)}>
+          <div className={styles.modal} onClick={e => e.stopPropagation()}>
+            <button className={styles.modalClose} onClick={() => setShowScheduleModal(false)}>✕</button>
+            <h2 className={styles.modalTitle}>Schedule Interview</h2>
+            <p className={styles.modalSubtitle}>
+              with {selectedCandidate.student.first_name} {selectedCandidate.student.last_name}
+            </p>
+
+            <div className={styles.formGroup}>
+              <label>Interview Type</label>
+              <select
+                value={interviewType}
+                onChange={e => setInterviewType(e.target.value)}
+                className={styles.input}
+              >
+                <option value="phone">Phone Screen</option>
+                <option value="video">Video Call</option>
+                <option value="technical">Technical Interview</option>
+                <option value="onsite">On-site</option>
+              </select>
+            </div>
+
+            <div className={styles.formGroup}>
+              <label>Date & Time *</label>
+              <input
+                type="datetime-local"
+                value={interviewDate}
+                onChange={e => setInterviewDate(e.target.value)}
+                min={new Date().toISOString().slice(0, 16)}
+                className={styles.input}
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label>Duration</label>
+              <select
+                value={interviewDuration}
+                onChange={e => setInterviewDuration(e.target.value)}
+                className={styles.input}
+              >
+                <option value="30">30 minutes</option>
+                <option value="45">45 minutes</option>
+                <option value="60">1 hour</option>
+                <option value="90">1.5 hours</option>
+              </select>
+            </div>
+
+            <div className={styles.formGroup}>
+              <label>Meeting Link *</label>
+              <input
+                type="url"
+                value={meetingLink}
+                onChange={e => setMeetingLink(e.target.value)}
+                placeholder="https://zoom.us/j/..."
+                className={styles.input}
+              />
+            </div>
+
+            <div className={styles.modalActions}>
+              <button onClick={() => setShowScheduleModal(false)} className={styles.cancelBtn}>
+                Cancel
+              </button>
+              <button
+                onClick={handleScheduleInterview}
+                disabled={!meetingLink || !interviewDate || processingId === selectedCandidate.id}
+                className={styles.primaryBtn}
+              >
+                {processingId === selectedCandidate.id ? 'Scheduling...' : 'Schedule Interview'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Success/Error Messages */}
+      {success && (
+        <div className={styles.toastSuccess}>
+          <span>✓</span> {success}
+        </div>
+      )}
+      {error && (
+        <div className={styles.toastError}>
+          <span>⚠️</span> {error}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Profile Modal Component
+interface ProfileModalProps {
+  candidate: Candidate;
+  processingId: string | null;
+  onClose: () => void;
+  onMarkInterested: () => void;
+  onScheduleInterview: () => void;
+  onReject: () => void;
+  onHire: () => void;
+  onDownloadResume: () => void;
+  getScoreClass: (score: number | null) => string;
+  formatDate: (date: string) => string;
+}
+
+function ProfileModal({
+  candidate,
+  processingId,
+  onClose,
+  onMarkInterested,
+  onScheduleInterview,
+  onReject,
+  onHire,
+  onDownloadResume,
+  getScoreClass,
+  formatDate,
+}: ProfileModalProps) {
+  const isProcessing = processingId === candidate.id;
+  const { student, assessment } = candidate;
+  const statusConfig = STATUS_CONFIG[candidate.status];
+
+  // Only show contact info if status is interested or beyond
+  const showContactInfo = candidate.status !== 'sent';
+
+  return (
+    <div className={styles.modalOverlay} onClick={onClose}>
+      <div className={styles.profileModal} onClick={e => e.stopPropagation()}>
+        <button className={styles.modalClose} onClick={onClose}>✕</button>
+
+        {/* Header */}
+        <div className={styles.profileHeader}>
+          <div className={styles.profileAvatar}>
+            {student.first_name[0]}{student.last_name[0]}
+          </div>
+          <div className={styles.profileInfo}>
+            <h2>{student.first_name} {student.last_name}</h2>
+            <p>{student.major || 'No major'} • Class of {student.graduation_year || 'N/A'}</p>
+            <span className={`${styles.statusBadge} ${styles[statusConfig.colorClass]}`}>
+              {statusConfig.icon} {statusConfig.label}
+            </span>
+          </div>
+          {assessment && (
+            <div className={`${styles.profileScore} ${getScoreClass(assessment.total_score)}`}>
+              <span className={styles.profileScoreValue}>{assessment.total_score}</span>
+              <span className={styles.profileScoreLabel}>/100</span>
+            </div>
+          )}
+        </div>
+
+        <div className={styles.profileContent}>
+          {/* Contact - only if interested or beyond */}
+          {showContactInfo && (
+            <section className={styles.profileSection}>
+              <h3>Contact Information</h3>
+              <div className={styles.contactGrid}>
+                <div>📧 {student.email}</div>
+                {student.location && <div>📍 {student.location}</div>}
+              </div>
+              <div className={styles.socialLinks}>
+                {student.linkedin_profile && (
+                  <a href={student.linkedin_profile} target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
+                    LinkedIn
+                  </a>
+                )}
+              </div>
+            </section>
+          )}
+
+          {!showContactInfo && (
+            <section className={styles.profileSection}>
+              <div className={styles.contactLocked}>
+                <span>🔒</span>
+                <p>Mark as &quot;Interested&quot; to view contact information</p>
+              </div>
+            </section>
+          )}
+
+          {/* Education */}
+          <section className={styles.profileSection}>
+            <h3>Education</h3>
+            <div className={styles.detailGrid}>
+              <div><strong>Major:</strong> {student.major || 'Not specified'}</div>
+              <div><strong>Graduation:</strong> {student.graduation_year || 'Not specified'}</div>
+              <div><strong>GPA:</strong> {student.gpa ? student.gpa.toFixed(2) : 'Not specified'}</div>
+              {student.location && <div><strong>Location:</strong> {student.location}</div>}
+            </div>
+          </section>
+
+          {/* Technical Skills */}
+          {student.technical_skills.length > 0 && (
+            <section className={styles.profileSection}>
+              <h3>Technical Skills</h3>
+              <div className={styles.skillTags}>
+                {student.technical_skills.map((skill, i) => (
+                  <span key={i} className={styles.skillTag}>{skill}</span>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Assessment */}
+          {assessment && (
+            <section className={styles.profileSection}>
+              <h3>TalentBridge Assessment</h3>
+              <div className={styles.assessmentGrid}>
+                <div className={styles.assessmentBlock}>
+                  <h4>Technical ({assessment.technical_total}/50)</h4>
+                  <div className={styles.scoreRow}><span>Problem Solving</span><span>{assessment.problem_solving}/15</span></div>
+                  <div className={styles.scoreRow}><span>Code Quality</span><span>{assessment.code_quality}/15</span></div>
+                  <div className={styles.scoreRow}><span>Technical Knowledge</span><span>{assessment.technical_knowledge}/10</span></div>
+                  <div className={styles.scoreRow}><span>Debugging</span><span>{assessment.debugging_ability}/10</span></div>
+                </div>
+                <div className={styles.assessmentBlock}>
+                  <h4>Behavioral ({assessment.behavioral_total}/30)</h4>
+                  <div className={styles.scoreRow}><span>Communication</span><span>{assessment.communication_skills}/10</span></div>
+                  <div className={styles.scoreRow}><span>Problem Approach</span><span>{assessment.problem_approach}/10</span></div>
+                  <div className={styles.scoreRow}><span>Cultural Fit</span><span>{assessment.cultural_fit}/10</span></div>
+                </div>
+              </div>
+
+              {assessment.strengths && (
+                <div className={styles.feedbackBlock}>
+                  <h4>Strengths</h4>
+                  <p>{assessment.strengths}</p>
+                </div>
+              )}
+
+              {assessment.recommendation && (
+                <div className={styles.recommendationBadge}>
+                  TalentBridge Recommendation: <strong>{assessment.recommendation.replace(/_/g, ' ')}</strong>
+                </div>
+              )}
+            </section>
+          )}
+
+          {/* Timeline */}
+          <section className={styles.profileSection}>
+            <h3>Timeline</h3>
+            <div className={styles.timeline}>
+              <div className={styles.timelineItem}>
+                <span className={styles.timelineDate}>{formatDate(candidate.sent_date)}</span>
+                <span className={styles.timelineEvent}>Presented by TalentBridge</span>
+              </div>
+              {candidate.status !== 'sent' && (
+                <div className={styles.timelineItem}>
+                  <span className={styles.timelineDate}>—</span>
+                  <span className={styles.timelineEvent}>Marked as {statusConfig.label}</span>
+                </div>
+              )}
+              {candidate.interview_scheduled_date && (
+                <div className={styles.timelineItem}>
+                  <span className={styles.timelineDate}>{formatDate(candidate.interview_scheduled_date)}</span>
+                  <span className={styles.timelineEvent}>Interview Scheduled</span>
+                </div>
+              )}
+            </div>
+          </section>
+
+          {/* Notes */}
+          {candidate.company_notes && (
+            <section className={styles.profileSection}>
+              <h3>Your Notes</h3>
+              <p className={styles.notesText}>{candidate.company_notes}</p>
+            </section>
+          )}
+
+          {/* Resume */}
+          {student.resume_url && (
+            <section className={styles.profileSection}>
+              <button onClick={onDownloadResume} className={styles.downloadBtn}>
+                📄 Download Resume
+              </button>
+            </section>
+          )}
+        </div>
+
+        {/* Actions */}
+        <div className={styles.profileActions}>
+          {candidate.status === 'sent' && (
+            <button onClick={onMarkInterested} disabled={isProcessing} className={styles.interestedBtn}>
+              👍 Mark Interested
+            </button>
+          )}
+          {(candidate.status === 'sent' || candidate.status === 'company_interested') && (
+            <button onClick={onScheduleInterview} disabled={isProcessing} className={styles.scheduleBtn}>
+              📅 Schedule Interview
+            </button>
+          )}
+          {candidate.status === 'interview_scheduled' && (
+            <button onClick={onHire} disabled={isProcessing} className={styles.hireBtn}>
+              🎉 Mark as Hired
+            </button>
+          )}
+          {candidate.status !== 'hired' && candidate.status !== 'rejected' && (
+            <button onClick={onReject} disabled={isProcessing} className={styles.rejectBtn}>
+              Not a Fit
+            </button>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
