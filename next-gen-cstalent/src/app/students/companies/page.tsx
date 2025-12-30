@@ -27,8 +27,7 @@ interface JobRequirement {
   tech_stack: string[] | null;
   location_preferences: string[] | null;
   desired_graduation_dates: string[] | null;
-  minimum_gpa: number | null;
-  employment_type: string | null;
+  min_gpa: number | string | null;
 }
 
 interface PositionsModalState {
@@ -151,7 +150,7 @@ function BrowseCompanies() {
       // Note: RLS policies should allow students to view active job requirements
       const { data, error, status } = await supabase
         .from('company_requirements')
-        .select('id, position_title, job_description, tech_stack, location_preferences, desired_graduation_dates, minimum_gpa, employment_type')
+        .select('id, position_title, job_description, tech_stack, location_preferences, desired_graduation_dates, min_gpa')
         .eq('company_id', company.id)
         .eq('is_active', true);
 
@@ -422,9 +421,6 @@ function BrowseCompanies() {
                     >
                       <h4 className={styles.positionTileTitle}>{req.position_title}</h4>
                       <div className={styles.positionTileMeta}>
-                        {req.employment_type && (
-                          <span className={styles.positionTileType}>{req.employment_type}</span>
-                        )}
                         {req.location_preferences && req.location_preferences.length > 0 && (
                           <span className={styles.positionTileLocation}>
                             📍 {req.location_preferences[0]}
@@ -468,15 +464,6 @@ function BrowseCompanies() {
 
             <div className={styles.modalContent}>
               <div className={styles.jobDetailContent}>
-                {/* Employment Type */}
-                {jobDetailModal.job.employment_type && (
-                  <div className={styles.jobDetailBadges}>
-                    <span className={styles.employmentBadge}>
-                      {jobDetailModal.job.employment_type}
-                    </span>
-                  </div>
-                )}
-
                 {/* Job Description */}
                 {jobDetailModal.job.job_description && (
                   <div className={styles.jobDetailSection}>
@@ -528,13 +515,15 @@ function BrowseCompanies() {
                   )}
 
                   {/* Minimum GPA */}
-                  {jobDetailModal.job.minimum_gpa && (
+                  {jobDetailModal.job.min_gpa && (
                     <div className={styles.requirementItem}>
                       <span className={styles.requirementIcon}>📊</span>
                       <div>
                         <span className={styles.requirementLabel}>Minimum GPA</span>
                         <span className={styles.requirementValue}>
-                          {jobDetailModal.job.minimum_gpa.toFixed(2)}
+                          {typeof jobDetailModal.job.min_gpa === 'number' 
+                            ? jobDetailModal.job.min_gpa.toFixed(2) 
+                            : jobDetailModal.job.min_gpa}
                         </span>
                       </div>
                     </div>

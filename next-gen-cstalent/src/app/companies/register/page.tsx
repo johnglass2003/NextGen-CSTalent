@@ -123,11 +123,23 @@ export default function CompanyRegisterPage() {
         return;
       }
 
-      // 2. Insert into users table
+      // 2. Check if user already exists - block re-registration
+      const { data: existingUser } = await supabase
+        .from('users')
+        .select('id')
+        .eq('id', authData.user.id)
+        .single();
+
+      if (existingUser) {
+        setError('An account with this email already exists. Please login instead.');
+        return;
+      }
+
+      // Insert new user
       const { error: userInsertError } = await supabase
         .from('users')
         .insert({
-          auth_user_id: authData.user.id,
+          id: authData.user.id,
           email: formData.email,
           role: 'company',
         });
@@ -138,18 +150,20 @@ export default function CompanyRegisterPage() {
         return;
       }
 
-      // 3. Insert into companies table
+      // 3. Insert new company profile
+      const companyData = {
+        auth_user_id: authData.user.id,
+        company_name: formData.companyName,
+        email: formData.email,
+        industry: formData.industry,
+        website: formData.website || null,
+        description: formData.description || null,
+        subscription_tier: formData.subscriptionTier.toLowerCase(),
+      };
+
       const { error: companyInsertError } = await supabase
         .from('companies')
-        .insert({
-          auth_user_id: authData.user.id,
-          company_name: formData.companyName,
-          email: formData.email,
-          industry: formData.industry,
-          website: formData.website || null,
-          description: formData.description || null,
-          subscription_tier: formData.subscriptionTier.toLowerCase(),
-        });
+        .insert(companyData);
 
       if (companyInsertError) {
         console.error('Error inserting company:', companyInsertError);

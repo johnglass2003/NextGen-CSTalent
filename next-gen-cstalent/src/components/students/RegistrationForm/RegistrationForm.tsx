@@ -110,11 +110,23 @@ export default function RegistrationForm() {
         return;
       }
 
-      // 2. Insert into users table
+      // 2. Check if user already exists - block re-registration
+      const { data: existingUser } = await supabase
+        .from('users')
+        .select('id')
+        .eq('id', authData.user.id)
+        .single();
+
+      if (existingUser) {
+        setError('An account with this email already exists. Please login instead.');
+        return;
+      }
+
+      // Insert new user
       const { error: userInsertError } = await supabase
         .from('users')
         .insert({
-          auth_user_id: authData.user.id,
+          id: authData.user.id,
           email: formData.email,
           role: 'student',
         });
@@ -125,22 +137,39 @@ export default function RegistrationForm() {
         return;
       }
 
-      // 3. Insert into students table
+      // 3. Check if student already exists, then insert or update
+      // Parse graduation year and semester from the combined value (e.g., "Fall 2025")
+      const gradParts = formData.graduationYear?.split(' ') || [];
+      let gradSemester: string | null = null;
+      let gradYear: number | null = null;
+      
+      if (gradParts.length === 2) {
+        gradSemester = gradParts[0]; // "Fall" or "Spring"
+        gradYear = parseInt(gradParts[1], 10);
+      } else if (gradParts.length === 1) {
+        // Handle "2027+" case
+        gradYear = parseInt(gradParts[0].replace('+', ''), 10);
+      }
+
+      const studentData = {
+        auth_user_id: authData.user.id,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        email: formData.email,
+        major: formData.major,
+        graduation_year: gradYear,
+        graduation_semester: gradSemester,
+        gpa: parseFloat(formData.gpa || '0'),
+        linkedin_profile: formData.linkedInUrl,
+        technical_skills: formData.skills,
+        location: formData.locationPreferences?.[0] || null,
+        vetting_status: 'pending_review',
+      };
+
+      // Insert new student profile
       const { error: studentInsertError } = await supabase
         .from('students')
-        .insert({
-          auth_user_id: authData.user.id,
-          first_name: formData.firstName,
-          last_name: formData.lastName,
-          email: formData.email,
-          major: formData.major,
-          graduation_year: formData.graduationYear,
-          gpa: parseFloat(formData.gpa || '0'),
-          linkedin_url: formData.linkedInUrl,
-          skills: formData.skills,
-          location_preferences: formData.locationPreferences,
-          vetting_status: 'pending_review',
-        });
+        .insert(studentData);
 
       if (studentInsertError) {
         console.error('Error inserting student:', studentInsertError);

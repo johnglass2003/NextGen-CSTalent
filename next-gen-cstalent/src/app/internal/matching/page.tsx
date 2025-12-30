@@ -28,7 +28,7 @@ interface JobRequirement {
   tech_stack: string[];
   location_preferences: string[];
   desired_graduation_dates: string[];
-  minimum_gpa: number | null;
+  min_gpa: number | string | null;
   is_active: boolean;
 }
 
@@ -263,11 +263,12 @@ function MatchingDashboard() {
     }
 
     // GPA requirement (20 points)
-    if (requirement.minimum_gpa && student.gpa) {
-      if (student.gpa >= requirement.minimum_gpa) {
+    const minGpa = requirement.min_gpa ? parseFloat(String(requirement.min_gpa)) : null;
+    if (minGpa && student.gpa) {
+      if (student.gpa >= minGpa) {
         gpaScore = 20;
       }
-    } else if (!requirement.minimum_gpa) {
+    } else if (!minGpa) {
       gpaScore = 20; // No GPA requirement = full points
     }
 
@@ -503,7 +504,7 @@ function MatchingDashboard() {
                       {req.location_preferences && req.location_preferences.length > 0 && (
                         <span>📍 {req.location_preferences[0]}</span>
                       )}
-                      {req.minimum_gpa && <span>GPA: {req.minimum_gpa}+</span>}
+                      {req.min_gpa && <span>GPA: {req.min_gpa}+</span>}
                     </div>
                   </button>
                 ))}
