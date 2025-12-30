@@ -199,15 +199,17 @@
 }
 
 .skillTagSelected {
-  background: var(--color-primary-orange);
-  border-color: var(--color-primary-orange);
-  color: white;
+  background: var(--color-primary-orange) !important;
+  border-color: var(--color-primary-orange) !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  box-shadow: 0 0 0 2px var(--color-primary-orange-light);
 }
 
 .skillTagSelected:hover {
-  background: var(--color-primary-orange-dark);
-  border-color: var(--color-primary-orange-dark);
-  color: white;
+  background: var(--color-primary-orange-dark) !important;
+  border-color: var(--color-primary-orange-dark) !important;
+  color: #ffffff !important;
 }
 
 /* Resume Upload */

@@ -14,7 +14,6 @@ const NAV_ITEMS = [
   { href: '/companies/dashboard', label: 'Dashboard' },
   { href: '/companies/requirements', label: 'Post Job' },
   { href: '/companies/candidates', label: 'Candidates' },
-  { href: '/companies/analytics', label: 'Analytics' },
   { href: '/companies/billing', label: 'Billing' },
   { href: '/companies/messages', label: 'Messages' },
 ];

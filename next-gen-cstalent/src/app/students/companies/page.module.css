@@ -295,19 +295,9 @@
 }
 
 .viewPositionsBtn:hover {
-  background: var(--color-bg-primary);
-  border-color: var(--color-primary-blue);
-}
-
-.viewPositionsBtn.expanded {
   background: var(--color-primary-blue-light);
   border-color: var(--color-primary-blue);
   color: var(--color-primary-blue);
-}
-
-.expandIcon {
-  font-size: 10px;
-  transition: transform var(--transition-fast);
 }
 
 /* Interest Checkbox */
@@ -466,5 +456,359 @@
 
   .companyLogo {
     background: var(--color-bg-secondary);
+  }
+}
+
+/* Modal Overlay */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--spacing-lg);
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 700px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-xl);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--spacing-lg) var(--spacing-xl);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.modalTitle {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.modalSubtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: var(--spacing-xs) 0 0 0;
+}
+
+.modalCompanyName {
+  font-size: var(--font-size-sm);
+  color: var(--color-primary-blue);
+  font-weight: 500;
+}
+
+.closeButton {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-tertiary);
+  border: none;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.closeButton:hover {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+}
+
+.modalContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-lg) var(--spacing-xl);
+}
+
+.modalLoading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2xl);
+  gap: var(--spacing-md);
+  color: var(--color-text-secondary);
+}
+
+.modalEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2xl);
+  text-align: center;
+  gap: var(--spacing-sm);
+}
+
+.modalEmpty p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.emptyHint {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+/* Positions Grid */
+.positionsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-md);
+}
+
+@media (max-width: 600px) {
+  .positionsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.positionTile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-lg);
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.positionTile:hover {
+  border-color: var(--color-primary-blue);
+  background: var(--color-primary-blue-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.positionTileTitle {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.positionTileMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.positionTileType {
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  padding: 2px var(--spacing-sm);
+  background: var(--color-primary-orange-light);
+  color: var(--color-primary-orange);
+  border-radius: var(--radius-full);
+}
+
+.positionTileLocation {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.positionTileTech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
+
+.techChip {
+  font-size: var(--font-size-xs);
+  padding: 2px var(--spacing-sm);
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-sm);
+}
+
+.techMore {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  padding: 2px var(--spacing-xs);
+}
+
+.viewDetailsHint {
+  font-size: var(--font-size-xs);
+  color: var(--color-primary-blue);
+  margin-top: auto;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.positionTile:hover .viewDetailsHint {
+  opacity: 1;
+}
+
+/* Job Detail Content */
+.jobDetailContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.jobDetailBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.employmentBadge {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  background: var(--color-primary-orange-light);
+  color: var(--color-primary-orange);
+  border-radius: var(--radius-full);
+}
+
+.jobDetailSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.jobDetailSectionTitle {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.jobDescription {
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.techStackList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.techStackItem {
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  background: var(--color-primary-blue-light);
+  color: var(--color-primary-blue);
+  border-radius: var(--radius-full);
+}
+
+.requirementsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
+}
+
+.requirementItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+}
+
+.requirementIcon {
+  font-size: var(--font-size-lg);
+  line-height: 1;
+}
+
+.requirementLabel {
+  display: block;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.requirementValue {
+  display: block;
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.backToPositionsBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-primary-blue);
+  background: transparent;
+  border: 1px solid var(--color-primary-blue);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  align-self: flex-start;
+}
+
+.backToPositionsBtn:hover {
+  background: var(--color-primary-blue-light);
+}
+
+/* Dark Mode Modal */
+@media (prefers-color-scheme: dark) {
+  .modal {
+    background: var(--color-bg-secondary);
+  }
+
+  .positionTile {
+    background: var(--color-bg-tertiary);
+  }
+
+  .positionTile:hover {
+    background: var(--color-bg-primary);
+  }
+
+  .requirementsGrid {
+    background: var(--color-bg-tertiary);
   }
 }

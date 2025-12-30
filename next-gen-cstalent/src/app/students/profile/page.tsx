@@ -6,13 +6,10 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import styles from './page.module.css';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 // Form options
 const MAJORS = [
@@ -68,7 +65,6 @@ export default function StudentProfilePage() {
 
 function ProfileForm() {
   const { user } = useAuth();
-  const [supabase] = useState(() => createClient(supabaseUrl, supabaseAnonKey));
   
   // Form state
   const [formData, setFormData] = useState<Partial<StudentProfile>>({
@@ -110,12 +106,16 @@ function ProfileForm() {
 
   const fetchStudentProfile = async () => {
     try {
+      console.log('Fetching student profile for user:', user?.id);
+      
       // Get student profile
       const { data: student, error: studentError } = await supabase
         .from('students')
         .select('*')
         .eq('auth_user_id', user?.id)
         .single();
+
+      console.log('Fetch result:', { student, error: studentError });
 
       if (studentError) throw studentError;
 
@@ -126,11 +126,11 @@ function ProfileForm() {
           last_name: student.last_name || '',
           email: student.email || '',
           major: student.major || '',
-          graduation_year: student.graduation_year || '',
+          graduation_year: student.graduation_year?.toString() || '',
           gpa: student.gpa,
           location: student.location || '',
-          linkedin_url: student.linkedin_url || '',
-          skills: student.skills || [],
+          linkedin_url: student.linkedin_profile || '',
+          skills: student.technical_skills || [],
           resume_url: student.resume_url,
         });
 
@@ -296,22 +296,37 @@ function ProfileForm() {
         resumeUrl = await uploadResume();
       }
 
-      // Update student profile
-      const { error: updateError } = await supabase
+      // Debug logging
+      console.log('Saving profile with data:', {
+        studentId,
+        skills: formData.skills,
+        skillsType: typeof formData.skills,
+        skillsIsArray: Array.isArray(formData.skills),
+      });
+
+      // Update student profile - use correct database column names
+      const updatePayload = {
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        major: formData.major,
+        graduation_year: formData.graduation_year,
+        gpa: formData.gpa,
+        location: formData.location,
+        linkedin_profile: formData.linkedin_url,
+        technical_skills: formData.skills || [],
+        resume_url: resumeUrl,
+        updated_at: new Date().toISOString(),
+      };
+      
+      console.log('Update payload:', updatePayload);
+      
+      const { error: updateError, data: updateData } = await supabase
         .from('students')
-        .update({
-          first_name: formData.first_name,
-          last_name: formData.last_name,
-          major: formData.major,
-          graduation_year: formData.graduation_year,
-          gpa: formData.gpa,
-          location: formData.location,
-          linkedin_url: formData.linkedin_url,
-          skills: formData.skills,
-          resume_url: resumeUrl,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', studentId);
+        .update(updatePayload)
+        .eq('id', studentId)
+        .select();
+      
+      console.log('Update result:', { error: updateError, data: updateData });
 
       if (updateError) throw updateError;
 
@@ -347,9 +362,17 @@ function ProfileForm() {
       // Update form data with new resume URL
       setFormData(prev => ({ ...prev, resume_url: resumeUrl }));
 
-    } catch (err) {
+    } catch (err: unknown) {
       console.error('Save error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to save changes');
+      // Better error handling to show actual error message
+      let errorMessage = 'Failed to save changes';
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      } else if (err && typeof err === 'object') {
+        const errObj = err as { message?: string; error_description?: string; details?: string };
+        errorMessage = errObj.message || errObj.error_description || errObj.details || JSON.stringify(err);
+      }
+      setError(errorMessage);
     } finally {
       setSaving(false);
     }

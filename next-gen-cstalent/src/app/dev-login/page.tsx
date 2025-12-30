@@ -30,12 +30,13 @@ export default function DevLogin() {
         return;
       }
       console.log("✅ Found user:", user);
+      // The users.id is the same as auth_user_id referenced in students/companies tables
       localStorage.setItem("dev_user", JSON.stringify({
         id: user.id,
         email: user.email,
         role: user.role,
       }));
-      console.log("✅ Dev user stored in localStorage");
+      console.log("✅ Dev user stored in localStorage with id:", user.id);
       const dashboardMap = {
         student: "/students/dashboard",
         company: "/companies/dashboard",
